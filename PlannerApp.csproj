@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
     <UserSecretsId>aspnet-PlannerApp-e79da5a8-277a-42c5-9f92-fdc4ff4acb2a</UserSecretsId>
   </PropertyGroup>
 
