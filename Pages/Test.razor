@@ -1,0 +1,23 @@
+@page "/database"
+@using PlannerApp.Database
+@inject IDb Database
+
+
+<h1>Hello</h1>
+
+
+@foreach(var item in Querys)
+{
+    <p>@item</p>
+}
+@code {
+
+
+
+    private List<string> Querys = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Querys = await Database.GetQuery();
+    }
+}
