@@ -1,16 +1,17 @@
 
 
+using System.Data.Common;
 using MySqlConnector;
 
 namespace PlannerApp.Database;
 
 
-public class MysqlDatabase : IDb
+public class DatabaseProvider : IDb
 {
     private readonly MySqlConnection _connection;
 
 
-    public MysqlDatabase(MySqlConnection connection)
+    public DatabaseProvider(MySqlConnection connection)
     {
         _connection = connection; 
     }
@@ -20,6 +21,12 @@ public class MysqlDatabase : IDb
     {
         await _connection.OpenAsync();
     }
+
+    public async Task CloseDb()
+    {
+        await _connection.CloseAsync();
+    }
+    
 
     public async Task<List<string>> GetQuery()
     {
@@ -31,6 +38,7 @@ public class MysqlDatabase : IDb
         {
             list.Add(reader.GetValue(0).ToString());
         }
+        await CloseDb();
         return list;
     }
 }
@@ -40,4 +48,5 @@ public interface IDb
 {
     Task OpenDb();
     Task<List<string>> GetQuery();
+    Task CloseDb();
 }

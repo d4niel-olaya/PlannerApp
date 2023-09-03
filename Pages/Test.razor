@@ -8,7 +8,15 @@
 
 @foreach(var item in Querys)
 {
-    <p>@item</p>
+    <MudCard>
+    <MudCardContent>
+        
+        <MudText Typo="Typo.body2">@item</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+    </MudCardActions>
+    </MudCard>
 }
 @code {
 
