@@ -1,0 +1,38 @@
+@page "/files"
+
+
+<InputFile OnChange="HandleFileUpload"/>
+
+@code{
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
+{
+    var file = e.File;
+    if (file != null)
+    {
+       
+        // Accede al volumen montado usando las variables de entorno de Railway
+        var volumeName = Environment.GetEnvironmentVariable("RAILWAY_VOLUME_NAME");
+        var volumeMountPath = Environment.GetEnvironmentVariable("RAILWAY_VOLUME_MOUNT_PATH");
+
+        if (!string.IsNullOrEmpty(volumeName) && !string.IsNullOrEmpty(volumeMountPath))
+        {
+            // Crea una ruta completa al directorio dentro del volumen
+            var directoryPath = Path.Combine(volumeMountPath, "archivos");
+
+            // Asegúrate de que el directorio exista o créalo si no existe
+            Directory.CreateDirectory(directoryPath);
+
+            // Guarda el archivo dentro del directorio
+            var filePath = Path.Combine(directoryPath, file.Name);
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.OpenReadStream().CopyToAsync(stream);
+                
+            }
+
+            // Realiza aquí cualquier otra lógica necesaria, como guardar la ruta del archivo en tu base de datos.
+        }
+    }
+}
+
+}
