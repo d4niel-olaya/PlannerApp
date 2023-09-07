@@ -16,8 +16,29 @@ public class CustomAuthenticacion : AuthenticationStateProvider
     {
         _sessionStorage = session;
     }
-    public override Task<AuthenticationState> GetAuthenticationStateAsync()
+    public override  async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        throw new NotImplementedException();
+        try{
+            var userSession = await  _sessionStorage.GetAsync<UserSession>("UserSession");
+        var userSessionResult= userSession.Success ? userSession.Value : null;
+
+        if(userSessionResult==null)
+        {
+            return await Task.FromResult(new AuthenticationState(_claims));
+        }
+
+        var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
+            new List<Claim>(){
+                new Claim(ClaimTypes.Name, userSessionResult.UserName),
+                new Claim(ClaimTypes.Role,userSessionResult.Role)
+            
+            },"CustomAuth"
+        ));
+        return await Task.FromResult(new AuthenticationState(claimsPrincipal));
+        }
+        catch
+        {
+             return await Task.FromResult(new AuthenticationState(_claims));
+        }
     }
 }
