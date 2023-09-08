@@ -41,4 +41,27 @@ public class CustomAuthenticacion : AuthenticationStateProvider
              return await Task.FromResult(new AuthenticationState(_claims));
         }
     }
+
+    public async Task UpdateAuthenticacionState(UserSession userSession)
+    {
+        ClaimsPrincipal claimsPrincipal;
+
+        if(userSession != null)
+        {
+            await _sessionStorage.SetAsync("UserSession", userSession);
+            claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
+            new List<Claim>(){
+                new Claim(ClaimTypes.Name, userSession.UserName),
+                new Claim(ClaimTypes.Role,userSession.Role)
+            
+            }
+        ));
+
+        }else
+        {
+            await _sessionStorage.DeleteAsync("UserSession");
+            claimsPrincipal = _claims;
+        }
+        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
+    }
 }
