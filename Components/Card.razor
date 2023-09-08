@@ -1,18 +1,20 @@
 @using Microsoft.AspNetCore.Components
-
-<MudCard Outlined="true">
-    <MudCardContent>
-        <MudCardHeader>
-            <MudText>@CardModel.Title</MudText>
-        </MudCardHeader>
-        @foreach(var tag in CardModel.Tags)
-        {
-            <MudChip Label="true" IconColor="Color.Default">@tag.Tag</MudChip>
-        }
-        <MudTextField T="string" Label="Multiline" Variant="Variant.Text" Text="@Description" Lines="5"/>
-        <MudChip Icon="Icons.Material.File.Calendar">00/00/0000</MudChip>
-    </MudCardContent>
-</MudCard>
+@namespace PlannerApp.Components
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudCard Outlined="true" Style="width:100%">
+        <MudCardContent>
+            <MudCardHeader>
+                <MudText>@CardModel.Title</MudText>
+            </MudCardHeader>
+            @foreach(var tag in CardModel.Tags)
+            {
+                <MudChip Label="true" IconColor="Color.Default">@tag.Tag</MudChip>
+            }
+            <MudTextField T="string" Label="Multiline" Variant="Variant.Text" Text="@Description" Lines="5"/>
+            <MudChip Icon="Icons.Material.File.Calendar">00/00/0000</MudChip>
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
 
 @code{
     [Parameter]

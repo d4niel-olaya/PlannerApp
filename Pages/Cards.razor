@@ -1,0 +1,23 @@
+@page "/cards"
+
+<Card CardModel="card"></Card>
+
+
+@code{
+
+    public CardComponent card = new CardComponent{
+        IdTask = 1,
+        Title="Title task",
+        Description = "This a des",
+        Tags = new List<TagComponent>()
+            {
+                new TagComponent{
+                    IdTag = 1,
+                    Tag ="To do"
+                }
+            }
+    };
+    
+
+
+}
