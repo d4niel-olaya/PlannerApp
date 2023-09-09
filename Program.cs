@@ -11,6 +11,7 @@ using MudBlazor.Services;
 using MySqlConnector;
 using PlannerApp.Database;
 using PlannerApp.Auth;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
   //  .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticacion>(); // Inject auth service
+builder.Services.AddSingleton<UserAccountService>();
 //builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
+
 builder.Services.AddMudServices();
 
 var app = builder.Build();
