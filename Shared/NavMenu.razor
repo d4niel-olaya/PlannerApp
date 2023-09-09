@@ -1,9 +1,24 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-    <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
-    <MudNavGroup Title="Settings" Expanded="true">
-        <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
-        <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
-    </MudNavGroup>
-    <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
+﻿@inject NavigationManager navigationManager
+@inject AuthenticationStateProvider authProvider
+<MudNavMenu>
+    <MudNavLink Href="/Login" Match="NavLinkMatch.All">Login</MudNavLink>
+    <AuthorizeView Roles="admin,User">
+        <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
+        <MudNavGroup Title="Settings" Expanded="true">
+            <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
+            <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
+        </MudNavGroup>
+        <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
+        <MudLink Href="/login" Match="NavLinkMatch.Prefix">Cerrar Sesión</MudLink>
+    </AuthorizeView>
 </MudNavMenu>
+
+@code
+{
+    private async Task Logout()
+    {
+        var customAuthProvider = (Auth.CustomAuthenticacion)authProvider;
+         await customAuthProvider.UpdateAuthenticacionState(null);
+         navigationManager.NavigateTo("/login",true);
+    }
+}
