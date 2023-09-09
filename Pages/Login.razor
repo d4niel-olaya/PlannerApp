@@ -6,13 +6,37 @@
 
 
 
-<MudCard>
+<MudCard Outlined="true">
     <MudCardContent>
-        <MudTextField T="string" HelperText="Máximo 8 Caracteres"/>
+        
+            <MudText Typo="Typo.h3" Align="Align.Center">Iniciar sesión</MudText>
+            <MudTextField T="string" Label="Usuario" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Person" />
+            <MudTextField T="string"  Label="Contraseña" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
+        
     </MudCardContent>
 </MudCard>
 
 
 @code {
 
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+
+   
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+     void ButtonTestclick()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
 }
