@@ -10,10 +10,12 @@ using PlannerApp.Helpers;
 using MudBlazor.Services;
 using MySqlConnector;
 using PlannerApp.Database;
+using PlannerApp.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAuthenticationCore();
 builder.Services.AddTransient(_ =>
     new MySqlConnection(DataHelper.GetStringDB(builder.Configuration))
     );
@@ -23,6 +25,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
   //  .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticacion>(); // Inject auth service
 //builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
