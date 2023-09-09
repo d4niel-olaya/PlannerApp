@@ -6,13 +6,13 @@
 
 
 
-<MudCard Outlined="true">
+<MudCard Outlined="false" Elevation="0">
     <MudCardContent>
         
             <MudText Typo="Typo.h3" Align="Align.Center">Iniciar sesión</MudText>
             <MudTextField T="string" Label="Usuario" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Person" />
             <MudTextField T="string"  Label="Contraseña" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
-        
+            <MudButton Variant="Variant.Filled" FullWidth="true"  Style="@($"background:{Colors.LightGreen.Default};")">Inicia sesión</MudButton>
     </MudCardContent>
 </MudCard>
 
