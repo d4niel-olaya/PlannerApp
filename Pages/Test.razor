@@ -1,0 +1,31 @@
+@page "/database"
+@using PlannerApp.Database
+@inject IDb Database
+
+
+<h1>Hello</h1>
+
+
+@foreach(var item in Querys)
+{
+    <MudCard>
+    <MudCardContent>
+        
+        <MudText Typo="Typo.body2">@item</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+    </MudCardActions>
+    </MudCard>
+}
+@code {
+
+
+
+    private List<string> Querys = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Querys = await Database.GetQuery();
+    }
+}
