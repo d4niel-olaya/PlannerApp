@@ -55,8 +55,9 @@ public class CustomAuthenticacion : AuthenticationStateProvider
                 new Claim(ClaimTypes.Role,userSession.Role)
             
             }
+            
         ));
-
+           
         }else
         {
             await _sessionStorage.DeleteAsync("UserSession");
