@@ -29,10 +29,26 @@ public class UserQueryManager
         await _dbservice.CloseDb();
     }
 
-    //public async Task<User> GetUserAsync(string userName)
-    //{
-     //   await _dbservice.OpenDb();
- //   }
+    public async Task<User> GetUserAsync(string userName)
+    {
+        var users = new User();
+      await _dbservice.OpenDb();
+      using var cmd = _dbservice.GetCommand();
+      cmd.CommandText = "SELECT top 1 UserEmail, UserRole FROM Users WHERE UserEmail = @UE";
+      cmd.Parameters.AddWithValue("@UE", userName);
+      using var reader = await cmd.ExecuteReaderAsync();
+
+        while(await reader.ReadAsync())
+        {
+            
+                users.UserEmail = reader.GetString(0);
+                users.UserRole = reader.GetString(1);
+           
+        }
+
+
+        return users;
+    }
 }
 
 public interface IUserQM
