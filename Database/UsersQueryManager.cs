@@ -28,6 +28,11 @@ public class UserQueryManager
         }
         await _dbservice.CloseDb();
     }
+
+    //public async Task<User> GetUserAsync(string userName)
+    //{
+     //   await _dbservice.OpenDb();
+ //   }
 }
 
 public interface IUserQM
