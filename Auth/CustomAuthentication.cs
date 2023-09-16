@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace PlannerApp.Auth;
@@ -9,6 +10,7 @@ public class CustomAuthenticacion : AuthenticationStateProvider
 {
 
     private readonly ProtectedSessionStorage _sessionStorage;
+    
 
     private  ClaimsPrincipal   _claims = new ClaimsPrincipal(new ClaimsIdentity());
 
@@ -57,7 +59,7 @@ public class CustomAuthenticacion : AuthenticationStateProvider
             }
             
         ));
-           
+            
         }else
         {
             await _sessionStorage.DeleteAsync("UserSession");
@@ -65,4 +67,5 @@ public class CustomAuthenticacion : AuthenticationStateProvider
         }
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
     }
+  
 }
