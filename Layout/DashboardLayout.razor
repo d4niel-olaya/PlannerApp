@@ -1,0 +1,20 @@
+@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components
+@namespace PlannerApp.Layouts
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+
+<MudLayout >
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large">
+            <MudPaper Width="100%" Elevation="4" Outlined="true" Class="py-8 px-10 space-center">
+
+                @Body
+
+            </MudPaper>
+        </MudContainer>
+    </MudMainContent>
+
+</MudLayout>
