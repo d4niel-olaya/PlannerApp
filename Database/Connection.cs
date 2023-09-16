@@ -41,6 +41,17 @@ public class DatabaseProvider : IDb
         await CloseDb();
         return list;
     }
+
+
+    public MySqlCommand GetCommand()
+    {
+        return new MySqlCommand();
+    }
+
+    public MySqlConnection GetProvider()
+    {
+        return _connection;
+    }
 }
 
 
@@ -49,4 +60,7 @@ public interface IDb
     Task OpenDb();
     Task<List<string>> GetQuery();
     Task CloseDb();
+    MySqlCommand GetCommand();
+
+    MySqlConnection GetProvider();
 }

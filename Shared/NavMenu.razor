@@ -1,21 +1,31 @@
 ﻿@inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authProvider
 <MudNavMenu>
-    <MudNavLink Href="/Login" Match="NavLinkMatch.All">Login</MudNavLink>
+
     <AuthorizeView Roles="admin,User">
-        <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
-        <MudNavGroup Title="Settings" Expanded="true">
-            <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
-            <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
-        </MudNavGroup>
-        <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
-        <MudButton OnClick="Logout">Cerrar Sesión</MudButton>
+        <NotAuthorized>
+            <MudNavLink Href="/Login" Match="NavLinkMatch.All">Login</MudNavLink>
+        </NotAuthorized>
+        <Authorized>
+            <MudNavLink>
+
+                <MudAvatar Color="Color.Info" Variant="Variant.Outlined">@context.User.Identity?.Name.ElementAt(0)</MudAvatar>
+            </MudNavLink>
+            <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix">Dashboard</MudNavLink>
+            <MudNavGroup Title="Settings" Expanded="true">
+                <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
+                <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
+            </MudNavGroup>
+            <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
+            <MudButton OnClick="Logout">Cerrar Sesión</MudButton>
+            
+        </Authorized>
     </AuthorizeView>
 </MudNavMenu>
 
 @code
 {
-    private async Task Logout()
+        private async Task Logout()
     {
         var customAuthProvider = (Auth.CustomAuthenticacion)authProvider;
          await customAuthProvider.UpdateAuthenticacionState(null);

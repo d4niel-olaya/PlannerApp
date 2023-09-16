@@ -23,7 +23,7 @@
             </div>
             <MudButton Variant="Variant.Filled" FullWidth="true"  Style="@($"background:{ColorInput};margin-top:1rem;color:white;")" OnClick="Authenticate">Inicia sesión</MudButton>
             <div class="space-top">
-                <MudText Typo="Typo.subtitle1" Align="Align.Center">No tienes una cuenta? <MudLink Href="#">Crea una</MudLink></MudText>
+                <MudText Typo="Typo.subtitle1" Align="Align.Center">No tienes una cuenta? <MudLink Href="/register">Crea una</MudLink></MudText>
             </div>
     </MudCardContent>
 </MudCard>
@@ -60,7 +60,7 @@
 
     async Task Authenticate()
     {
-        var userAccount = userService.GetUser(_model.UserName);
+        var userAccount = await userService.GetUser(_model.UserName);
         if(userAccount == null || userAccount.Password != _model.Password)
         {   
             await js.InvokeVoidAsync("alert", "Contraseña invalida");
