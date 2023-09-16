@@ -4,7 +4,7 @@ using PlannerApp.Database.Models;
 
 namespace PlannerApp.Database;
 
-public class UserQueryManager 
+public class UserQueryManager  : IUserQM
 {
     private readonly IDb _dbservice;
 
@@ -55,5 +55,6 @@ public class UserQueryManager
 
 public interface IUserQM
 {
-
+    Task<User> GetUserAsync(string userName);
+    Task Register(User user);
 }

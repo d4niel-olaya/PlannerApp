@@ -9,7 +9,7 @@
         <Authorized>
             <MudNavLink>
 
-                <MudAvatar Color="Color.Info" Variant="Variant.Outlined">@context.User.Identity?.Name.ElementAt(0)</MudAvatar>
+                <MudAvatar Color="Color.Info" Variant="Variant.Outlined">@context.User.Identity?.Name.ToUpper().ElementAt(0)</MudAvatar>
             </MudNavLink>
             <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix">Dashboard</MudNavLink>
             <MudNavGroup Title="Settings" Expanded="true">

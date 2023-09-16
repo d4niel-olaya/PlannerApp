@@ -28,7 +28,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticacion>(); // Inject auth service
-builder.Services.AddSingleton<UserQueryManager>();
+builder.Services.AddSingleton<IUserQM,UserQueryManager>();
 builder.Services.AddSingleton<UserAccountService>();
 
 //builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();

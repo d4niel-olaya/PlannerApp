@@ -8,9 +8,9 @@ namespace PlannerApp.Auth;
 public class UserAccountService
 {
     
-    private readonly UserQueryManager _userService;
+    private readonly IUserQM _userService;
 
-    public UserAccountService(UserQueryManager userService)
+    public UserAccountService(IUserQM userService)
     {       
        _userService =   userService;
     }
