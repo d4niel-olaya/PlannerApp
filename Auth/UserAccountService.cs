@@ -7,7 +7,7 @@ namespace PlannerApp.Auth;
 
 public class UserAccountService
 {
-    private List<UserAccount> listUsers;
+    
     private readonly UserQueryManager _userService;
 
     public UserAccountService(UserQueryManager userService)
@@ -21,6 +21,7 @@ public class UserAccountService
         var userByService = await _userService.GetUserAsync(UserName);
         user.User = userByService.UserEmail;
         user.Role = userByService.UserRole;
+        user.Password = userByService.UserPassword;
         return user;
     }
 }

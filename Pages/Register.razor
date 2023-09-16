@@ -1,6 +1,7 @@
 @page "/register"
 @inject UserQueryManager _userService
 @inject NavigationManager _navigator
+@inject ISnackbar _alert
 @layout LoginLayout
 
 <MudCard Outlined="false" Elevation="0">
@@ -53,6 +54,10 @@
         _model.UserNickname= "USERTEST";
         await _userService.Register(_model);
         _model = new User();
+        _alert.Configuration.RequireInteraction = true;
+        _alert.Add("Te has registrado con exito", Severity.Success);
+        await Task.Delay(3000);
+        _navigator.NavigateTo("/login");
         
     }
 

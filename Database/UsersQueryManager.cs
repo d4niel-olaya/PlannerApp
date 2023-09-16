@@ -34,7 +34,8 @@ public class UserQueryManager
         var users = new User();
       await _dbservice.OpenDb();
       using var cmd = _dbservice.GetCommand();
-      cmd.CommandText = "SELECT top 1 UserEmail, UserRole FROM Users WHERE UserEmail = @UE";
+      cmd.Connection = _dbservice.GetProvider();
+      cmd.CommandText = "SELECT UserEmail, UserRole, UserPassword FROM Users WHERE UserEmail = @UE LIMIT 1";
       cmd.Parameters.AddWithValue("@UE", userName);
       using var reader = await cmd.ExecuteReaderAsync();
 
@@ -43,10 +44,11 @@ public class UserQueryManager
             
                 users.UserEmail = reader.GetString(0);
                 users.UserRole = reader.GetString(1);
+                users.UserPassword = reader.GetString(2);
            
         }
 
-
+        await _dbservice.CloseDb();
         return users;
     }
 }
