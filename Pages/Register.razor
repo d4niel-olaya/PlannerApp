@@ -14,9 +14,9 @@
                 <MudTextField T="string"  Label="Contraseña" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password"  @bind-Value="_model.UserPassword"/>
             </div>
             <div class="space-top">
-                <MudTextField T="string"  Label="Confirma la contraseña" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password"  @bind-Value="PasswordConfirm"/>
+                <MudTextField T="string"  Label="Confirma la contraseña" Variant="Variant.Outlined" InputType="@PasswordInputConfirm" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIconConfirm" OnAdornmentClick="ButtonTestclickConfirm" AdornmentAriaLabel="Show Password"  @bind-Value="PasswordConfirm"/>
             </div>
-            <MudButton Variant="Variant.Filled" FullWidth="true"  Style="@($"background:{ColorInput};margin-top:1rem;color:white;")" OnClick="UserRegister">Inicia sesión</MudButton>
+            <MudButton Variant="Variant.Filled" FullWidth="true"  Style="@($"background:#3AB394;margin-top:1rem;color:white;")" OnClick="UserRegister">Inicia sesión</MudButton>
             
     </MudCardContent>
 </MudCard>
@@ -29,13 +29,19 @@
 
     string ColorInput = Colors.LightBlue.Accent1;
     bool isShow;
+
+    bool isShowConfirm; 
     InputType PasswordInput = InputType.Password;
+
+    InputType PasswordInputConfirm = InputType.Password;
     string PasswordConfirm = String.Empty;
 
    
     string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
 
-    void ButtonTestclick()
+    string PasswordInputIconConfirm = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick() // Show password - Input password
     {
         @if (isShow)
         {
@@ -47,6 +53,21 @@
             isShow = true;
             PasswordInputIcon = Icons.Material.Filled.Visibility;
             PasswordInput = InputType.Text;
+        }
+    }
+
+    void ButtonTestclickConfirm() // Show password ( Input confirm password )
+    {
+        @if (isShowConfirm)
+        {
+            isShowConfirm = false;
+            PasswordInputIconConfirm = Icons.Material.Filled.VisibilityOff;
+            PasswordInputConfirm = InputType.Password;
+        }
+        else {
+            isShowConfirm = true;
+            PasswordInputIconConfirm = Icons.Material.Filled.Visibility;
+            PasswordInputConfirm = InputType.Text;
         }
     }
 
