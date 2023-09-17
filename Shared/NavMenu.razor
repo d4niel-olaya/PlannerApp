@@ -9,14 +9,10 @@
         <Authorized>
             <MudNavLink>
 
-                <MudAvatar Color="Color.Info" Variant="Variant.Outlined">@context.User.Identity?.Name.ElementAt(0)</MudAvatar>
+                <MudAvatar Color="Color.Info" Variant="Variant.Outlined">@context.User.Identity?.Name.ToUpper().ElementAt(0)</MudAvatar>
             </MudNavLink>
             <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix">Dashboard</MudNavLink>
-            <MudNavGroup Title="Settings" Expanded="true">
-                <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
-                <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
-            </MudNavGroup>
-            <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
+            
             <MudButton OnClick="Logout">Cerrar Sesión</MudButton>
             
         </Authorized>
