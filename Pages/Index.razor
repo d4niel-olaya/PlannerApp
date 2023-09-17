@@ -1,4 +1,5 @@
 ﻿@layout IndexLayout
+@inject NavigationManager navigation
 @page "/"
  
     <div class="d-flex justify-center">
@@ -18,8 +19,12 @@
     <br>
     <div class="d-flex justify-center mt-1">
 
-        <MudLink Typo="Typo.button" Color="Color.Success" Underline="Underline.None" Href="/login">Inicia sesión</MudLink>
+            <MudButton Style="@($"background:#3AB394;margin-top:1rem;color:white;")" OnClick="GoToLogin">Inicia Sesión</MudButton>
     </div>
  @code{
 
+    void GoToLogin()
+    {
+        navigation.NavigateTo("/login");
+    }
  }
