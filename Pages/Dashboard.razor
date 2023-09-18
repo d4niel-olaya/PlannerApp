@@ -1,13 +1,15 @@
 @page "/dashboard"
+@attribute [Authorize]
+
+
    
 
-
-
-   
-
-<MudPaper>
-    
-</MudPaper>
+<MudContainer>
+    <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-space-around mt-2">
+        <MudText Typo="Typo.h3"> Proyectos</MudText>
+        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"/>
+    </MudContainer>
+</MudContainer>
 @code{
     [CascadingParameter]
     public Task<AuthenticationState> authenticationState {get;set;}
