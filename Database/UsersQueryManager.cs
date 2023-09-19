@@ -8,6 +8,8 @@ public class UserQueryManager  : IUserQM
 {
     private readonly IDb _dbservice;
 
+    private  int _currentUser;
+
     public UserQueryManager(IDb dbservice)
     {
         _dbservice  =   dbservice;
@@ -35,21 +37,31 @@ public class UserQueryManager  : IUserQM
       await _dbservice.OpenDb();
       using var cmd = _dbservice.GetCommand();
       cmd.Connection = _dbservice.GetProvider();
-      cmd.CommandText = "SELECT UserEmail, UserRole, UserPassword FROM Users WHERE UserEmail = @UE LIMIT 1";
+      cmd.CommandText = "SELECT UserId,UserEmail, UserRole, UserPassword FROM Users WHERE UserEmail = @UE LIMIT 1";
       cmd.Parameters.AddWithValue("@UE", userName);
       using var reader = await cmd.ExecuteReaderAsync();
 
         while(await reader.ReadAsync())
         {
-            
-                users.UserEmail = reader.GetString(0);
-                users.UserRole = reader.GetString(1);
-                users.UserPassword = reader.GetString(2);
+                users.UserId = reader.GetInt32(0);
+                users.UserEmail = reader.GetString(1);
+                users.UserRole = reader.GetString(2);
+                users.UserPassword = reader.GetString(3);
            
         }
 
         await _dbservice.CloseDb();
         return users;
+    }
+
+    public void SetCurrentUserId(int _userid)
+    {
+        _currentUser = _userid;
+    }
+
+    public int GetCurrentUserId()
+    {
+        return _currentUser;
     }
 }
 
@@ -57,4 +69,8 @@ public interface IUserQM
 {
     Task<User> GetUserAsync(string userName);
     Task Register(User user);
+
+    void SetCurrentUserId(int _userid);
+
+    int GetCurrentUserId();
 }
