@@ -8,7 +8,7 @@ public class UserQueryManager  : IUserQM
 {
     private readonly IDb _dbservice;
 
-    private  int _currentUser;
+   
 
     public UserQueryManager(IDb dbservice)
     {
@@ -54,15 +54,7 @@ public class UserQueryManager  : IUserQM
         return users;
     }
 
-    public void SetCurrentUserId(int _userid)
-    {
-        _currentUser = _userid;
-    }
-
-    public int GetCurrentUserId()
-    {
-        return _currentUser;
-    }
+    
 }
 
 public interface IUserQM
@@ -70,7 +62,5 @@ public interface IUserQM
     Task<User> GetUserAsync(string userName);
     Task Register(User user);
 
-    void SetCurrentUserId(int _userid);
-
-    int GetCurrentUserId();
+    
 }

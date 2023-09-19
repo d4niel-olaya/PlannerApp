@@ -10,6 +10,7 @@ using PlannerApp.Helpers;
 using MudBlazor.Services;
 using MySqlConnector;
 using PlannerApp.Database;
+using PlannerApp.Database.Temp;
 using PlannerApp.Auth;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
@@ -30,6 +31,7 @@ builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticacion>(); // Inject auth service
 builder.Services.AddSingleton<IUserQM,UserQueryManager>();
 builder.Services.AddSingleton<UserAccountService>();
+builder.Services.AddSingleton<UserTemp>(); 
 
 //builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
