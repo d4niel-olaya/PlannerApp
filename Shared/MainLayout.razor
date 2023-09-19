@@ -1,12 +1,14 @@
 ﻿@inherits LayoutComponentBase
 @using PlannerApp.Components
 <AuthorizeView>
+    
     <Authorized>
 
         <MudThemeProvider />
+
+
         <MudDialogProvider />
         <MudSnackbarProvider />
-
         <MudLayout>
             <MudAppBar>
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
@@ -20,27 +22,6 @@
             </MudMainContent>
         </MudLayout>
     </Authorized>
-    <NotAuthorized>
-        <MudThemeProvider />
-        <MudDialogProvider />
-        <MudSnackbarProvider />
-        <MudLayout>
-            <MudMainContent>
-
-
-                
-            <MudCard>
-                <MudCardContent>
-                        <MudText Typo="Typo.subtitle2">Debes iniciar sesión para acceder a este recurso</MudText>
-                </MudCardContent>
-                <MudCardActions>
-                    <MudLink Href="/login">Ir a login</MudLink>
-                </MudCardActions>
-            </MudCard>
-
-            </MudMainContent>
-        </MudLayout>
-    </NotAuthorized>
 </AuthorizeView>
 @code {
     bool _drawerOpen = true;
