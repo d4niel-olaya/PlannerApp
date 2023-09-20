@@ -1,21 +1,28 @@
 ﻿@inherits LayoutComponentBase
+@using PlannerApp.Components
+<AuthorizeView>
+    
+    <Authorized>
 
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+        <MudThemeProvider />
 
-<MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        My Application
-    </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen">
-        <NavMenu/>
-    </MudDrawer>
-    <MudMainContent>
-        @Body
-    </MudMainContent>
-</MudLayout>
+
+        <MudDialogProvider />
+        <MudSnackbarProvider />
+        <MudLayout>
+            <MudAppBar>
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                My Application
+            </MudAppBar>
+            <MudDrawer @bind-Open="@_drawerOpen">
+                <NavMenu/>
+            </MudDrawer>
+            <MudMainContent>
+                @Body
+            </MudMainContent>
+        </MudLayout>
+    </Authorized>
+</AuthorizeView>
 @code {
     bool _drawerOpen = true;
 

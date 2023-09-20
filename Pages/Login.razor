@@ -5,6 +5,7 @@
 @inject IJSRuntime js
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authProvider
+@inject UserTemp _userTemp
 
 @page "/login"
 
@@ -72,6 +73,8 @@
             UserName = userAccount.User,
             Role = userAccount.Role
         });
+
+        _userTemp.SetCurrentUserId(userAccount.UserId); // setting temp userid
         navigationManager.NavigateTo("/dashboard",true);
     }
 }

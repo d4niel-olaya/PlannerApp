@@ -19,6 +19,7 @@ public class UserAccountService
     {
         var user = new UserAccount();
         var userByService = await _userService.GetUserAsync(UserName);
+        user.UserId = userByService.UserId;
         user.User = userByService.UserEmail;
         user.Role = userByService.UserRole;
         user.Password = userByService.UserPassword;
