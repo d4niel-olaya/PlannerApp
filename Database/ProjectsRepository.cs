@@ -34,9 +34,25 @@ public class ProjectsRepository : Repository<IDb, Project>
 
     }
 
-    public override Task<IEnumerable<Project>> GetAsync()
+    public override  async Task<IEnumerable<Project>> GetAsync()
     {
-        throw new NotImplementedException();
+        var projectList = new List<Project>();
+        await _dbService.OpenDb();
+        using var cmd = _dbService.GetCommand();
+        cmd.Connection = _dbService.GetProvider();
+        cmd.CommandText = "SELECT ProjectId, ProjectName, ProjectDescription FROM Projects";
+        using var reader = await cmd.ExecuteReaderAsync();
+         while(await reader.ReadAsync())
+         {
+            var project = new Project
+            {
+                ProjectId = reader.GetInt32(0),
+                ProjectName = reader.GetString(1),
+                ProjectDescription = reader.GetString(2)
+            };
+            projectList.Add(project);
+        }
+        return projectList;
     }
 
     public override Task<Project> UpdateAsync(Project model)
