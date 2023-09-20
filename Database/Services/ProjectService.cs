@@ -19,7 +19,7 @@ public class ProjectService : IProjectService
         return await _projectRepository.CreateAsync(model);
     }
 
-    public async  Task<IEnumerable<Project>> GetProjects()
+    public async  Task<List<Project>> GetProjects()
     {
         return await _projectRepository.GetAsync();
     }
@@ -30,5 +30,5 @@ public class ProjectService : IProjectService
 public interface IProjectService
 {
     Task<Project> CreateProject(Project model);
-    Task<IEnumerable<Project>> GetProjects();
+    Task<List<Project>> GetProjects();
 }

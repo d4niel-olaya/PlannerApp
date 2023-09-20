@@ -1,0 +1,17 @@
+@namespace PlannerApp.Components
+@using PlannerApp.Database.Models
+@using PlannerApp.Database
+
+
+<MudCard>
+    <MudCardHeader>@project.ProjectName</MudCardHeader>
+    <MudCardContent>
+        @project.ProjectDescription
+    </MudCardContent>
+</MudCard>
+
+@code{
+    [Parameter]
+    public PlannerApp.Database.Models.Project project {get;set;} = new PlannerApp.Database.Models.Project();
+
+}

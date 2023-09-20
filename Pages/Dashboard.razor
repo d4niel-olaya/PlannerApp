@@ -1,5 +1,6 @@
 @page "/dashboard"
 @attribute [Authorize]
+@inject IProjectService _projectService
 
 
    
@@ -9,8 +10,26 @@
         <MudText Typo="Typo.h3"> Proyectos</MudText>
         <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"/>
     </MudContainer>
+     <MudPaper>
+
+            @if(ListProjects.Count > 0)
+            {
+                @foreach(var prj in ListProjects)
+                {
+                    <ProjectComponent project="prj"/>
+                }
+            }
+        </MudPaper>
 </MudContainer>
 @code{
     [CascadingParameter]
     public Task<AuthenticationState> authenticationState {get;set;}
+
+
+    public List<PlannerApp.Database.Models.Project> ListProjects = new List<PlannerApp.Database.Models.Project>();
+
+    protected override async Task OnInitializedAsync() 
+    {
+        ListProjects = await _projectService.GetProjects();
+    }
 }

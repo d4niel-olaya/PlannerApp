@@ -34,7 +34,7 @@ public class ProjectsRepository : Repository<IDb, Project>
 
     }
 
-    public override  async Task<IEnumerable<Project>> GetAsync()
+    public override  async Task<List<Project>> GetAsync()
     {
         var projectList = new List<Project>();
         await _dbService.OpenDb();
