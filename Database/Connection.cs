@@ -1,5 +1,6 @@
 
 
+using System.Data;
 using System.Data.Common;
 using MySqlConnector;
 
@@ -52,6 +53,20 @@ public class DatabaseProvider : IDb
     {
         return _connection;
     }
+    public ConnectionState GetState()
+    {
+        return _connection.State;
+    }
+    public bool IsOpen()
+    {
+        if(GetState() == ConnectionState.Open)
+        {
+            return true;   
+        }
+        else{
+            return false;
+        }
+    }
 }
 
 
@@ -63,4 +78,6 @@ public interface IDb
     MySqlCommand GetCommand();
 
     MySqlConnection GetProvider();
+    ConnectionState GetState();
+    bool IsOpen();
 }

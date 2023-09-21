@@ -1,28 +1,47 @@
 
-
+@inject UserTemp _userTemp
+@inject IProjectService _projectService
+@inject ISnackbar _alert
 
 <MudDialog DisableSidePadding="true">
     <DialogContent>
-        <MudContainer Style="max-height: 300px; overflow-y: scroll">
-            <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text"/>
+        <MudContainer>
+            <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="model.ProjectName"/>
+            <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.ProjectDescription"/>
         </MudContainer>
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Primary" OnClick="Ok">Accept</MudButton>
+        <MudButton Color="Color.Success" OnClick="SendData">Enviar</MudButton>
     </DialogActions>
-    </MudDialog>
+</MudDialog>
 
 
 @code{
 
-        [CascadingParameter] 
+    [CascadingParameter] 
     MudDialogInstance MudDialog { get; set; }
+    
 
+    public Project  model {get;set;} = new Project();
 
+   
     private void Ok()
     {
         MudDialog.Close(DialogResult.Ok(true));
     }
+
+    private async Task SendData()
+    {
+        model.UserIdProject = _userTemp.GetCurrentUserId();
+       var created =  await _projectService.CreateProject(model);
+       if(created != null)
+       {
+        _alert.Add("Acabas de crear un proyecto nuevo", Severity.Success);
+       }
+       MudDialog.Close(DialogResult.Ok(true));
+    }
+
 
 
 }

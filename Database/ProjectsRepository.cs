@@ -1,3 +1,4 @@
+using MySqlConnector;
 using PlannerApp.Database;
 using PlannerApp.Database.Models;
 using PlannerApp.Database.Temp;
@@ -55,6 +56,7 @@ public class ProjectsRepository : Repository<IDb, Project>
             };
             projectList.Add(project);
         }
+        await _dbService.CloseDb();
         return projectList;
     }
 
