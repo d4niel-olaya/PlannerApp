@@ -31,9 +31,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticacion>(); // Inject auth service
-builder.Services.AddSingleton<IUserQM,UserQueryManager>();
-builder.Services.AddSingleton<UserAccountService>();
-builder.Services.AddSingleton<UserTemp>(); 
+builder.Services.AddScoped<IUserQM,UserQueryManager>();
+builder.Services.AddScoped<UserAccountService>();
+builder.Services.AddScoped<UserTemp>();
 builder.Services.AddScoped<ProjectsRepository>(); 
 builder.Services.AddScoped<IProjectService, ProjectService>();
 //builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();

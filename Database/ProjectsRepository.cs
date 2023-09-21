@@ -1,5 +1,6 @@
 using PlannerApp.Database;
 using PlannerApp.Database.Models;
+using PlannerApp.Database.Temp;
 
 
 namespace PlannerApp.Database.Repository;
@@ -9,10 +10,11 @@ public class ProjectsRepository : Repository<IDb, Project>
 {
     private readonly IDb _dbService;
 
-
-    public ProjectsRepository(IDb db)
+    private readonly UserTemp _userTemp;
+    public ProjectsRepository(IDb db, UserTemp userTemp)
     {
-        _dbService = db;
+        _dbService = db;   
+        _userTemp = userTemp;
     }
 
     public override async Task<Project> CreateAsync(Project model)
@@ -40,7 +42,8 @@ public class ProjectsRepository : Repository<IDb, Project>
         await _dbService.OpenDb();
         using var cmd = _dbService.GetCommand();
         cmd.Connection = _dbService.GetProvider();
-        cmd.CommandText = "SELECT ProjectId, ProjectName, ProjectDescription FROM Projects";
+        cmd.CommandText = "SELECT ProjectId, ProjectName, ProjectDescription FROM Projects WHERE UserIdProject = @N";
+        cmd.Parameters.AddWithValue("@N", _userTemp.GetCurrentUserId());
         using var reader = await cmd.ExecuteReaderAsync();
          while(await reader.ReadAsync())
          {
