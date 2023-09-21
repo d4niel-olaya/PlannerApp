@@ -1,17 +1,17 @@
 @page "/dashboard"
 @attribute [Authorize]
 @inject IProjectService _projectService
-
+@inject IDialogService DialogService
 
    
 
 <MudContainer>
     <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-space-around mt-2">
         <MudText Typo="Typo.h3"> Proyectos</MudText>
-        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"/>
+        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenDialog"/>
     </MudContainer>
+    
      <MudPaper>
-
             @if(ListProjects.Count > 0)
             {
                 @foreach(var prj in ListProjects)
@@ -26,10 +26,18 @@
     public Task<AuthenticationState> authenticationState {get;set;}
 
 
+
     public List<PlannerApp.Database.Models.Project> ListProjects = new List<PlannerApp.Database.Models.Project>();
 
     protected override async Task OnInitializedAsync() 
     {
         ListProjects = await _projectService.GetProjects();
+    }
+
+    
+    private void OpenDialog()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<ProjectCreate>("Crea tu proyecto", options);
     }
 }
