@@ -1,5 +1,6 @@
 @page "/dashboard"
 @attribute [Authorize]
+@using PlannerApp.Auth
 @inject IProjectService _projectService
 @inject IDialogService DialogService
 @inject UserTemp _userTemp
@@ -29,16 +30,18 @@
     public int UserId {get;set;}
     public List<PlannerApp.Database.Models.Project> ListProjects = new List<PlannerApp.Database.Models.Project>();
 
+       
+
     protected override async Task OnInitializedAsync() 
     {
         ListProjects = await _projectService.GetProjects();
-        UserId = _userTemp.GetCurrentUserId();
     }
 
     
     private void OpenDialog()
     {
         var options = new DialogOptions { CloseOnEscapeKey = true };
+        
         DialogService.Show<ProjectCreate>("Crea tu proyecto", options);
         
     }

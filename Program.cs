@@ -15,11 +15,14 @@ using PlannerApp.Auth;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using PlannerApp.Database.Repository;
 using PlannerApp.Database.Services;
+using PlannerApp.Auth.LocalStorage;
+using System.Net.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddAuthenticationCore();
+
 builder.Services.AddTransient(_ =>
     new MySqlConnection(DataHelper.GetStringDB(builder.Configuration))
     );
@@ -31,6 +34,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticacion>(); // Inject auth service
+builder.Services.AddScoped<ProtectedLocalStorage>();
+builder.Services.AddScoped<UserLocalStorage>();
 builder.Services.AddScoped<IUserQM,UserQueryManager>();
 builder.Services.AddScoped<UserAccountService>();
 builder.Services.AddSingleton<UserTemp>();
