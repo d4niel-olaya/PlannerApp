@@ -2,6 +2,7 @@
 @inject UserTemp _userTemp
 @inject IProjectService _projectService
 @inject ISnackbar _alert
+@inject NavigationManager Navigation
 
 
 <MudDialog DisableSidePadding="true">
@@ -42,6 +43,7 @@
         _alert.Add("Acabas de crear un proyecto nuevo", Severity.Success);
        }
        MudDialog.Close(DialogResult.Ok(true));
+       
     }
 
 

@@ -1,4 +1,4 @@
-@page "/dashboard"
+@page "/dashboard/{created}?"
 @attribute [Authorize]
 @using PlannerApp.Auth
 @inject IProjectService _projectService
@@ -26,6 +26,9 @@
     [CascadingParameter]
     public Task<AuthenticationState> authenticationState {get;set;}
 
+    [Parameter]
+    public string created {get;set}
+
     
     public int UserId {get;set;}
     public List<PlannerApp.Database.Models.Project> ListProjects = new List<PlannerApp.Database.Models.Project>();
@@ -37,6 +40,9 @@
         ListProjects = await _projectService.GetProjects();
     }
 
+    
+
+    
     
     private void OpenDialog()
     {
