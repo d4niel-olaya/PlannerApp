@@ -4,7 +4,7 @@
 @inject IProjectService _projectService
 @inject IDialogService DialogService
 @inject UserTemp _userTemp
-
+@inject NavigationManager navigation
    
 
 <MudContainer>
@@ -22,7 +22,7 @@
             {
                 @foreach(var prj in ListProjects)
                 {
-                    <MudItem xs="6" sm="3">
+                    <MudItem xs="6" sm="3" onclick="@GoToTask">
                         <ProjectComponent project="prj"/>   
                     </MudItem>
                 }
@@ -77,5 +77,11 @@
     public async Task CreateProject(Project model)
     {
         await _projectService.CreateProject(model);
+    }
+    
+
+    public void GoToTask()
+    {
+        navigation.NavigateTo("/dropzone");
     }
 }
