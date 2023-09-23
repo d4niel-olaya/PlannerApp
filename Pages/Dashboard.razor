@@ -8,11 +8,15 @@
    
 
 <MudContainer>
-    <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-space-around mt-2">
-        <MudText Typo="Typo.h3"> Proyectos</MudText>
-        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenDialog"/>
+    <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-space-around align-center mt-8">
+        <div>
+            <MudText Typo="Typo.h4">Proyectos</MudText>
+        </div>
+        <div>
+            <MudFab Style="@($"background:#3AB394;color:white;")" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenDialog" Size="Size.Small" Label="Nuevo"/>
+        </div>
     </MudContainer>
-        <MudGrid Justify="Justify.Center">
+        <MudGrid Justify="Justify.Center" class="mt-3">
         
             @if(ListProjects.Count > 0)
             {
