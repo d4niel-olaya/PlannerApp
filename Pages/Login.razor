@@ -6,6 +6,7 @@
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authProvider
 @inject UserTemp _userTemp
+@inject UserLocalStorage localStorage
 
 @page "/login"
 
@@ -67,14 +68,15 @@
             await js.InvokeVoidAsync("alert", "Contraseña invalida");
             return;
         }
+        //await localStorage.SetAsync("Id",userAccount.UserId);
         var customAuthProvider = (CustomAuthenticacion)authProvider;
-
+        await localStorage.SetId(userAccount.UserId);
         await customAuthProvider.UpdateAuthenticacionState(new UserSession{
             UserName = userAccount.User,
             Role = userAccount.Role
         });
 
-        _userTemp.SetCurrentUserId(userAccount.UserId); // setting temp userid
+       
         navigationManager.NavigateTo("/dashboard",true);
     }
 }

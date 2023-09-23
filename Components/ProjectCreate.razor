@@ -1,0 +1,53 @@
+
+@inject UserTemp _userTemp
+@inject IProjectService _projectService
+@inject ISnackbar _alert
+@inject NavigationManager Navigation
+
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer>
+            <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="model.ProjectName"/>
+            <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.ProjectDescription"/>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Ok">Accept</MudButton>
+        <MudButton Color="Color.Success" OnClick="SendData">Enviar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code{
+
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
+    
+
+    public Project  model {get;set;} = new Project();
+
+   
+    private void Ok()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private async Task SendData()
+    {
+
+       
+       var created =  await _projectService.CreateProject(model);
+       if(created != null)
+       {
+        _alert.Add("Acabas de crear un proyecto nuevo", Severity.Success);
+       }
+       MudDialog.Close(DialogResult.Ok(true));
+      
+       Navigation.NavigateTo("/dashboard/created");
+       
+    }
+
+
+
+}

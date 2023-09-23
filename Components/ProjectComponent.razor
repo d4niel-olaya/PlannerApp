@@ -4,9 +4,13 @@
 
 
 <MudCard>
-    <MudCardHeader>@project.ProjectName</MudCardHeader>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">@project.ProjectName</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
     <MudCardContent>
-        @project.ProjectDescription
+       <MudText Typo="Typo.body2">@project.ProjectDescription</MudText> 
     </MudCardContent>
 </MudCard>
 

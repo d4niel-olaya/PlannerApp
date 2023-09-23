@@ -1,35 +1,77 @@
-@page "/dashboard"
+@page "/dashboard/{created?}"
 @attribute [Authorize]
+@using PlannerApp.Auth
 @inject IProjectService _projectService
-
+@inject IDialogService DialogService
+@inject UserTemp _userTemp
 
    
 
 <MudContainer>
     <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-space-around mt-2">
         <MudText Typo="Typo.h3"> Proyectos</MudText>
-        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"/>
+        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenDialog"/>
     </MudContainer>
-     <MudPaper>
-
+        <MudGrid Justify="Justify.Center">
+        
             @if(ListProjects.Count > 0)
             {
                 @foreach(var prj in ListProjects)
                 {
-                    <ProjectComponent project="prj"/>
+                    <MudItem xs="6" sm="3">
+                        <ProjectComponent project="prj"/>   
+                    </MudItem>
                 }
             }
-        </MudPaper>
+        </MudGrid>
 </MudContainer>
 @code{
     [CascadingParameter]
     public Task<AuthenticationState> authenticationState {get;set;}
 
+    [Parameter]
+    public string created {get;set;} = string.Empty;
 
+    
+    public int UserId {get;set;}
     public List<PlannerApp.Database.Models.Project> ListProjects = new List<PlannerApp.Database.Models.Project>();
+
+       
 
     protected override async Task OnInitializedAsync() 
     {
-        ListProjects = await _projectService.GetProjects();
+        ListProjects = await InitializedProjects();
+    }
+    // reload the component if route parameter was passed
+        protected override async Task OnParametersSetAsync()
+        {
+            if(created != String.Empty)
+            {
+                ListProjects = await InitializedProjects();
+                base.StateHasChanged();
+            }
+
+        }
+
+
+    // return List of projects
+    public async Task<List<Project>> InitializedProjects()
+    {
+        return await _projectService.GetProjects();
+    }
+
+
+
+    private void OpenDialog()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        
+        DialogService.Show<ProjectCreate>("Crea tu proyecto", options);
+        
+    }
+
+    public async Task CreateProject(Project model)
+    {
+        await _projectService.CreateProject(model);
     }
 }
