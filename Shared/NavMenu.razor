@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authProvider
+@inject UserLocalStorage localStorage
 <MudNavMenu>
 
     <AuthorizeView Roles="admin,User">
@@ -22,6 +23,7 @@
     {
         var customAuthProvider = (Auth.CustomAuthenticacion)authProvider;
          await customAuthProvider.UpdateAuthenticacionState(null);
+         await localStorage.DeleteId(); // deleting id user from localstorage
          navigationManager.NavigateTo("/login",true);
     }
 }

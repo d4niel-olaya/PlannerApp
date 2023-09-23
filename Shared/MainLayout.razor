@@ -10,9 +10,9 @@
         <MudDialogProvider />
         <MudSnackbarProvider />
         <MudLayout>
-            <MudAppBar>
-                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-                My Application
+            <MudAppBar Style="background:#3AB394;color:white;">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Style="background:#3AB394;color:white;" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                PlannerApp
             </MudAppBar>
             <MudDrawer @bind-Open="@_drawerOpen">
                 <NavMenu/>
