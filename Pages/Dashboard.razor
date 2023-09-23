@@ -12,16 +12,18 @@
         <MudText Typo="Typo.h3"> Proyectos</MudText>
         <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenDialog"/>
     </MudContainer>
-     <MudPaper Class="d-flex flex-wrap">
+        <MudGrid Justify="Justify.Center">
         
             @if(ListProjects.Count > 0)
             {
                 @foreach(var prj in ListProjects)
                 {
-                    <ProjectComponent project="prj"/>
+                    <MudItem xs="6" sm="3">
+                        <ProjectComponent project="prj"/>   
+                    </MudItem>
                 }
             }
-        </MudPaper>
+        </MudGrid>
 </MudContainer>
 @code{
     [CascadingParameter]

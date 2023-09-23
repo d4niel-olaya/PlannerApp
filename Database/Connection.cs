@@ -20,7 +20,11 @@ public class DatabaseProvider : IDb
 
     public async Task OpenDb()
     {
-        await _connection.OpenAsync();
+        if(IsOpen() == false)
+        {
+
+            await _connection.OpenAsync();
+        }
     }
 
     public async Task CloseDb()
