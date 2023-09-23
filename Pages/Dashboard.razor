@@ -1,4 +1,4 @@
-@page "/dashboard/{created}?"
+@page "/dashboard/{created?}"
 @attribute [Authorize]
 @using PlannerApp.Auth
 @inject IProjectService _projectService
@@ -12,7 +12,8 @@
         <MudText Typo="Typo.h3"> Proyectos</MudText>
         <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenDialog"/>
     </MudContainer>
-     <MudPaper>
+     <MudPaper Class="d-flex flex-wrap">
+        
             @if(ListProjects.Count > 0)
             {
                 @foreach(var prj in ListProjects)
@@ -27,7 +28,7 @@
     public Task<AuthenticationState> authenticationState {get;set;}
 
     [Parameter]
-    public string created {get;set}
+    public string created {get;set;} = string.Empty;
 
     
     public int UserId {get;set;}
@@ -37,13 +38,28 @@
 
     protected override async Task OnInitializedAsync() 
     {
-        ListProjects = await _projectService.GetProjects();
+        ListProjects = await InitializedProjects();
+    }
+    // reload the component if route parameter was passed
+        protected override async Task OnParametersSetAsync()
+        {
+            if(created != String.Empty)
+            {
+                ListProjects = await InitializedProjects();
+                base.StateHasChanged();
+            }
+
+        }
+
+
+    // return List of projects
+    public async Task<List<Project>> InitializedProjects()
+    {
+        return await _projectService.GetProjects();
     }
 
-    
 
-    
-    
+
     private void OpenDialog()
     {
         var options = new DialogOptions { CloseOnEscapeKey = true };

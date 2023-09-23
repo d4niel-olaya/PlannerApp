@@ -43,6 +43,8 @@
         _alert.Add("Acabas de crear un proyecto nuevo", Severity.Success);
        }
        MudDialog.Close(DialogResult.Ok(true));
+      
+       Navigation.NavigateTo("/dashboard/created");
        
     }
 
