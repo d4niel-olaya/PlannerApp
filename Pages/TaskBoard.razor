@@ -1,0 +1,14 @@
+
+@using Microsoft.AspNetCore.Components
+@using System.ComponentModel.DataAnnotations
+@page "/tasks"
+
+<MudDropContainer T="Taskes" @ref="_dropContainer"  ItemsSelector="@((item,column) => item.State == column)">
+
+</MudDropContainer>
+
+
+@code
+{
+    private MudDropContainer<Taskes> _dropContainer;
+}
