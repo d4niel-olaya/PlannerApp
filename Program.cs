@@ -40,7 +40,9 @@ builder.Services.AddScoped<IUserQM,UserQueryManager>();
 builder.Services.AddScoped<UserAccountService>();
 builder.Services.AddSingleton<UserTemp>();
 builder.Services.AddScoped<ProjectsRepository>(); 
+builder.Services.AddScoped<TaskRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 //builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
 
