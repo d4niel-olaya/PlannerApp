@@ -2,6 +2,7 @@ using PlannerApp.Database;
 using PlannerApp.Auth.LocalStorage;
 using PlannerApp.Database.Models;
 using PlannerApp.Database.Temp;
+using System.Data;
 
 namespace PlannerApp.Database.Repository;
 
@@ -30,10 +31,10 @@ public class TaskRepository : Repository<IDb, Taskes>
         await _dbService.OpenDb();
         using var cmd = _dbService.GetCommand();
         cmd.Connection = _dbService.GetProvider();
-        cmd.CommandText = "SELECT TaskId, TaskName, TaskDescription, TaskState FROM tasks WHERE TaskOwnerId = @U and TaskProjectId = @P";
+        cmd.CommandText = "SELECT TaskId, TaskName, TaskState FROM tasks WHERE TaskOwnerId = @U and TaskProjectId = @P";
         cmd.Parameters.AddWithValue("@U", id); // User session id
         cmd.Parameters.AddWithValue("@P", IdProject); // Project id 
-        //cmd.Parameters.AddWithValue("@D",model.ProjectDescription);
+        
         using var reader = await cmd.ExecuteReaderAsync();
          while(await reader.ReadAsync())
          {
@@ -41,8 +42,7 @@ public class TaskRepository : Repository<IDb, Taskes>
             {
                 TaskId = reader.GetInt32(0),
                 TaskName = reader.GetString(1),
-                TaskDescription = reader.GetString(2),
-                TaskState = reader.GetString(3)
+                TaskState = reader.GetString(2)
             };
             List.Add(task);
         }
@@ -50,7 +50,10 @@ public class TaskRepository : Repository<IDb, Taskes>
         return List;
         
     }
-
+    public void SetId(int idpr)
+    {
+        IdProject = idpr;
+    }
     public override Task<Taskes> UpdateAsync(Taskes model)
     {
         throw new NotImplementedException();

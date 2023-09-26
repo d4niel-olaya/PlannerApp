@@ -24,6 +24,11 @@ public class TaskService : ITaskService
     {
         return  await _taskRepository.GetAsync();
     }
+
+    public void SetProjectId(int id)
+    {
+        _taskRepository.SetId(id);
+    }
 }
 
 
@@ -33,4 +38,5 @@ public interface ITaskService
 
      Task<List<Taskes>> GetTaskes();
 
+    void SetProjectId(int id);
 }

@@ -3,16 +3,16 @@
 @using System.ComponentModel.DataAnnotations
 @using PlannerApp.Database.Models
 @inject ITaskService _taskService
-@page "/tasks"
+@page "/tasks/{id:int}"
 
 
 <MudDropContainer T="Taskes" Items="_items" ItemsSelector="@((item,dropzone) => item.TaskState== dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
     <ChildContent>
-        <MudDropZone T="Taskes" Identifier="Drop Zone 1" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
-            <MudText Typo="Typo.h6" Class="mb-4">Drop Zone 1</MudText>
+        <MudDropZone T="Taskes" Identifier="Pendiente" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
+            <MudText Typo="Typo.h6" Class="mb-4">Pendiente</MudText>
          </MudDropZone>
-        <MudDropZone T="Taskes" Identifier="Drop Zone 2" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
-            <MudText Typo="Typo.h6" Class="mb-4">Drop Zone 2</MudText>
+        <MudDropZone T="Taskes" Identifier="Completada" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
+            <MudText Typo="Typo.h6" Class="mb-4">Completeda</MudText>
         </MudDropZone>
     </ChildContent>
     <ItemRenderer>
@@ -21,20 +21,26 @@
 </MudDropContainer>
 
 @code {
+
+    [Parameter]
+    public int id {get;set;}
     private void ItemUpdated(MudItemDropInfo<Taskes> dropItem)
     {
         dropItem.Item.TaskState = dropItem.DropzoneIdentifier;
     }
     
-    private List<Taskes> _items = new()
+    private List<Taskes> _items  = new();
+
+    /*new()
     {
         new Taskes(){ TaskName = "Drag me!", TaskState = "Drop Zone 1" },
         new Taskes(){ TaskName = "Or me!", TaskState = "Drop Zone 2" },
         new Taskes(){ TaskName = "Just Mud", TaskState = "Drop Zone 1" },
-    };
-
+    };*/
+    
     protected override async Task OnInitializedAsync()
-    {
+    { 
+        _taskService.SetProjectId(id);
         _items = await _taskService.GetTaskes();
     }
     
