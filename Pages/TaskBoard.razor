@@ -85,7 +85,7 @@
     {
         var options = new DialogOptions { CloseOnEscapeKey = true };
         var parameters = new DialogParameters<TaskCreate>();
-        parameters.Add(x => x.IdProject, id);
+        parameters.Add("IdProject", id);
          DialogService.Show<TaskCreate>("Crea tu tarea", parameters,options);
         
     }

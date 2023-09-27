@@ -6,10 +6,9 @@
 <MudDialog DisableSidePadding="true">
     <DialogContent>
         <MudContainer>
-           
-            <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="model.TaskName"/>
-            <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.TaskDescription"/>
-            <MudSelect Margin="Margin.Dense" T="string" Label="Estado" Variant="Variant.Outlined" @bind-Value="model.TaskState">
+            <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="Name"/>
+            <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="Desc"/>
+            <MudSelect Margin="Margin.Dense" T="string" Label="Estado" Variant="Variant.Outlined" @bind-Value="State">
                 <MudSelectItem Value="@("Pendiente")" />
                 <MudSelectItem Value="@("Completada")" />
                 <MudSelectItem Value="@("En Proceso")" />
@@ -29,6 +28,13 @@
 
     [Parameter]
     public int IdProject {get;set;}
+
+
+    public string Name {get;set;} = String.Empty;
+
+    public string Desc {get;set;} = String.Empty;
+
+    public string State {get;set;}
     
 
     public Taskes model {get;set;} = new Taskes();
@@ -42,8 +48,10 @@
 
     private async Task SendData()
     {
-        
-        model.TaskProjectId = IdProject;
+       model.TaskName = Name;
+       model.TaskDescription = Desc;
+       model.TaskState = State;
+      model.TaskProjectId = IdProject;
        var created =  await _taskService.CreateTask(model);
        if(created != null)
        {
