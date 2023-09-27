@@ -1,0 +1,49 @@
+using PlannerApp.Database.Models;
+using PlannerApp.Database.Repository;
+
+
+namespace PlannerApp.Database.Services;
+
+
+public class TaskService : ITaskService
+{
+
+
+       private readonly TaskRepository _taskRepository;
+
+     public TaskService(TaskRepository taskRepository)
+     {
+          _taskRepository = taskRepository;
+     }
+    public async Task<Taskes> CreateTask(Taskes model)
+    {
+        return await _taskRepository.CreateAsync(model);
+    }
+
+    public async Task<List<Taskes>> GetTaskes()
+    {
+        return  await _taskRepository.GetAsync();
+    }
+
+    public void SetProjectId(int id)
+    {
+        _taskRepository.SetId(id);
+    }
+
+    public async Task<Taskes> UpdateTask(Taskes model)
+    {
+        return await _taskRepository.UpdateAsync(model);
+    }
+}
+
+
+public interface ITaskService
+{
+     Task<Taskes> CreateTask(Taskes model);
+
+     Task<List<Taskes>> GetTaskes();
+
+    void SetProjectId(int id);
+
+    Task<Taskes> UpdateTask(Taskes model);
+}

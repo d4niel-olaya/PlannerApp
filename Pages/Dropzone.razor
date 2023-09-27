@@ -1,7 +1,9 @@
+
+
+
 @using Microsoft.AspNetCore.Components
 @using System.ComponentModel.DataAnnotations
 @page "/dropzone"
-
 
 <MudDropContainer T="KanbanTaskItem" @ref="_dropContainer" Items="@_tasks" ItemsSelector="@((item,column) => item.Status == column)" ItemDropped="TaskUpdated" Class="d-flex flex-row">
 	<ChildContent>
