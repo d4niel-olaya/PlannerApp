@@ -8,15 +8,41 @@
 
 <MudDropContainer T="Taskes"  Items="_items" ItemsSelector="@((item,dropzone) => item.TaskState== dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
     <ChildContent>
-       <MudDropZone T="Taskes" Identifier="Pendiente" Class="rounded mud-background-gray pa-12 ma-8 flex-grow-1">
-            <MudText Typo="Typo.h6" Class="mb-4">Pendiente</MudText>
-         </MudDropZone>
-        <MudDropZone T="Taskes" Identifier="Completada" Class="rounded mud-background-gray pa-12 ma-8 flex-grow-1">
-            <MudText Typo="Typo.h6" Class="mb-4">Completeda</MudText>
-        </MudDropZone>
+                <MudDropZone T="Taskes" Identifier="Pendiente" Class="rounded mud-background-gray pa-12 ma-8 flex-grow-1 flex-md-grow-1 flex-sm-grow-0">
+                    
+
+                        <MudText Typo="Typo.h6" Class="mb-4">Pendiente</MudText>
+                   
+                </MudDropZone>
+           
+            
+                <MudDropZone T="Taskes" Identifier="En Proceso" Class="rounded mud-background-gray pa-12 ma-8 flex-grow-1 flex-md-grow-1 flex-sm-grow-0">
+                    
+
+                        <MudText Typo="Typo.h6" Class="mb-4">En Proceso</MudText>
+                    
+                </MudDropZone>
+         
+           
+                <MudDropZone T="Taskes" Identifier="Completada" Class="rounded mud-background-gray pa-12 ma-8 flex-grow-1 flex-md-grow-1 flex-sm-grow-0">
+
+                        <MudText Typo="Typo.h6" Class="mb-4">Completada</MudText>
+                   
+                </MudDropZone>
+          
+
+        
     </ChildContent>
     <ItemRenderer>
-        <MudPaper Elevation="25" Class="pa-4 my-4">@context.TaskName</MudPaper>
+        
+
+            <MudPaper Elevation="25" Class="pa-4 my-4">
+               
+
+                    @context.TaskName   
+               
+            </MudPaper> 
+        
     </ItemRenderer>
 </MudDropContainer>
 
