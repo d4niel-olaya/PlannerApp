@@ -26,11 +26,12 @@ public class TaskRepository : Repository<IDb, Taskes>
         using(var cmd = _dbService.GetCommand())
         {
             cmd.Connection = _dbService.GetProvider();
-            cmd.CommandText = "INSERT INTO tasks(TaskName, TaskDescription, TaskState, TaskOwnerId) VALUE(@N, @D, @S, @U)";
+            cmd.CommandText = "INSERT INTO tasks(TaskName, TaskDescription, TaskState, TaskOwnerId, TaskProjectId) VALUE(@N, @D, @S, @U, @P)";
             cmd.Parameters.AddWithValue("@N",model.TaskName);
             cmd.Parameters.AddWithValue("@D",model.TaskDescription);
             cmd.Parameters.AddWithValue("@S",model.TaskState);
             cmd.Parameters.AddWithValue("@U",id);
+            cmd.Parameters.AddWithValue("@P", model.TaskProjectId);
             await cmd.ExecuteNonQueryAsync();
             
         }
