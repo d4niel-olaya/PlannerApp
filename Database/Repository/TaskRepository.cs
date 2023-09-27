@@ -54,8 +54,22 @@ public class TaskRepository : Repository<IDb, Taskes>
     {
         IdProject = idpr;
     }
-    public override Task<Taskes> UpdateAsync(Taskes model)
+    public override async Task<Taskes> UpdateAsync(Taskes model)
     {
-        throw new NotImplementedException();
+        await _dbService.OpenDb();
+        using(var cmd = _dbService.GetCommand())
+        {
+            cmd.Connection = _dbService.GetProvider();
+            cmd.CommandText = "UPDATE tasks SET TaskState = @N WHERE TaskId = @T";
+            cmd.Parameters.AddWithValue("@N",model.TaskState);
+            cmd.Parameters.AddWithValue("@T",model.TaskId);
+            //cmd.Parameters.AddWithValue("@D",model.ProjectDescription);
+           //cmd.Parameters.AddWithValue("@U",id);
+            //cmd.Parameters.AddWithValue("@R",user.UserRole);
+            await cmd.ExecuteNonQueryAsync();
+            
+        }
+        await _dbService.CloseDb();
+        return new Taskes{TaskId = model.TaskId};
     }
 }

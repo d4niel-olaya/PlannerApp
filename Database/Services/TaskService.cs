@@ -29,6 +29,11 @@ public class TaskService : ITaskService
     {
         _taskRepository.SetId(id);
     }
+
+    public async Task<Taskes> UpdateTask(Taskes model)
+    {
+        return await _taskRepository.UpdateAsync(model);
+    }
 }
 
 
@@ -39,4 +44,6 @@ public interface ITaskService
      Task<List<Taskes>> GetTaskes();
 
     void SetProjectId(int id);
+
+    Task<Taskes> UpdateTask(Taskes model);
 }
