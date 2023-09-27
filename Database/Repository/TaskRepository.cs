@@ -26,7 +26,7 @@ public class TaskRepository : Repository<IDb, Taskes>
         using(var cmd = _dbService.GetCommand())
         {
             cmd.Connection = _dbService.GetProvider();
-            cmd.CommandText = "INSERT INTO tasks(TaskName, TaskDescription, TaskState, TaskOwnerId, TaskProjectId) VALUE(@N, @D, @S, @U, @P)";
+            cmd.CommandText = "INSERT INTO Tasks(TaskName, TaskDescription, TaskState, TaskOwnerId, TaskProjectId) VALUE(@N, @D, @S, @U, @P)";
             cmd.Parameters.AddWithValue("@N",model.TaskName);
             cmd.Parameters.AddWithValue("@D",model.TaskDescription);
             cmd.Parameters.AddWithValue("@S",model.TaskState);
@@ -46,7 +46,7 @@ public class TaskRepository : Repository<IDb, Taskes>
         await _dbService.OpenDb();
         using var cmd = _dbService.GetCommand();
         cmd.Connection = _dbService.GetProvider();
-        cmd.CommandText = "SELECT TaskId, TaskName, TaskState FROM tasks WHERE TaskOwnerId = @U and TaskProjectId = @P";
+        cmd.CommandText = "SELECT TaskId, TaskName, TaskState FROM Tasks WHERE TaskOwnerId = @U and TaskProjectId = @P";
         cmd.Parameters.AddWithValue("@U", id); // User session id
         cmd.Parameters.AddWithValue("@P", IdProject); // Project id 
         
@@ -75,7 +75,7 @@ public class TaskRepository : Repository<IDb, Taskes>
         using(var cmd = _dbService.GetCommand())
         {
             cmd.Connection = _dbService.GetProvider();
-            cmd.CommandText = "UPDATE tasks SET TaskState = @N WHERE TaskId = @T";
+            cmd.CommandText = "UPDATE Tasks SET TaskState = @N WHERE TaskId = @T";
             cmd.Parameters.AddWithValue("@N",model.TaskState);
             cmd.Parameters.AddWithValue("@T",model.TaskId);
             //cmd.Parameters.AddWithValue("@D",model.ProjectDescription);
