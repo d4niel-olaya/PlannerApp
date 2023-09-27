@@ -15,9 +15,9 @@ public class TaskService : ITaskService
      {
           _taskRepository = taskRepository;
      }
-    public Task<Taskes> CreateTask(Taskes model)
+    public async Task<Taskes> CreateTask(Taskes model)
     {
-        throw new NotImplementedException();
+        return await _taskRepository.CreateAsync(model);
     }
 
     public async Task<List<Taskes>> GetTaskes()

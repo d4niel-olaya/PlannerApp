@@ -19,9 +19,23 @@ public class TaskRepository : Repository<IDb, Taskes>
         _dbService = db; 
         _local = local;   
     }
-    public override Task<Taskes> CreateAsync(Taskes model)
+    public override async Task<Taskes> CreateAsync(Taskes model)
     {
-        throw new NotImplementedException();
+        await _dbService.OpenDb();
+        var id = await _local.GetId();
+        using(var cmd = _dbService.GetCommand())
+        {
+            cmd.Connection = _dbService.GetProvider();
+            cmd.CommandText = "INSERT INTO tasks(TaskName, TaskDescription, TaskState, TaskOwnerId) VALUE(@N, @D, @S, @U)";
+            cmd.Parameters.AddWithValue("@N",model.TaskName);
+            cmd.Parameters.AddWithValue("@D",model.TaskDescription);
+            cmd.Parameters.AddWithValue("@S",model.TaskState);
+            cmd.Parameters.AddWithValue("@U",id);
+            await cmd.ExecuteNonQueryAsync();
+            
+        }
+        await _dbService.CloseDb();
+        return new Taskes{TaskName = model.TaskName, TaskProjectId = model.TaskProjectId};
     }
 
     public override async Task<List<Taskes>> GetAsync()

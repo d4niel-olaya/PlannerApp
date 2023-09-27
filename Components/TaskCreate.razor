@@ -1,0 +1,61 @@
+
+@inject ITaskService _taskService
+@inject ISnackbar _alert
+@inject NavigationManager Navigation
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer>
+           
+            <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="model.TaskName"/>
+            <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.TaskDescription"/>
+            <MudSelect Margin="Margin.Dense" T="string" Label="Estado" Variant="Variant.Outlined" @bind-Value="model.TaskState">
+                <MudSelectItem Value="@("Pendiente")" />
+                <MudSelectItem Value="@("Completada")" />
+                <MudSelectItem Value="@("En Proceso")" />
+            </MudSelect>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Ok">Cerrar</MudButton>
+        <MudButton Color="Color.Success" OnClick="SendData">Enviar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code{
+
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public int IdProject {get;set;}
+    
+
+    public Taskes model {get;set;} = new Taskes();
+
+
+
+        private void Ok()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private async Task SendData()
+    {
+        
+        model.TaskProjectId = IdProject;
+       var created =  await _taskService.CreateTask(model);
+       if(created != null)
+       {
+        _alert.Add("Acabas de crear una tarea nuevo", Severity.Success);
+        MudDialog.Close(DialogResult.Ok(true));
+        
+        Navigation.NavigateTo($"/tasks/{created.TaskProjectId}/created");
+       }
+
+       
+    }
+
+
+
+}
