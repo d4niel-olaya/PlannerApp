@@ -83,7 +83,7 @@
 
     private void OpenDialog()
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth=true };
         var parameters = new DialogParameters<TaskCreate>();
         parameters.Add("IdProject", id);
          DialogService.Show<TaskCreate>("Crea tu tarea", parameters,options);
@@ -92,7 +92,7 @@
 
     private void OpenTask(Taskes model)
     {
-        var options = new DialogOptions{CloseOnEscapeKey=true, MaxWidth = MaxWidth.Large};
+        var options = new DialogOptions{CloseOnEscapeKey=true, MaxWidth = MaxWidth.Medium, FullWidth=true};
         var parameters = new DialogParameters<TaskFullView>();
         parameters.Add("model", model);
         DialogService.Show<TaskFullView>($"{model.TaskName}", parameters,options); // Adding full view task

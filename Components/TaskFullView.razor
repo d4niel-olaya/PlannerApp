@@ -2,12 +2,16 @@
 
 <MudDialog>
     <DialogContent>
-        <MudPaper Width="100%">
+       
             <MudContainer MaxWidth="MaxWidth.Medium">
                 <MudText Typo="Typo.caption">@model.TaskState</MudText>
-                <MudText Typo="Typo.subtitle1">@model.TaskDescription</MudText>
+                <MudPaper  Outlined="true" Height="30%">
+                   <MudText Typo="Typo.body1">
+                         @model.TaskDescription
+                   </MudText>
+                </MudPaper>
             </MudContainer>
-        </MudPaper>
+        
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Primary" OnClick="Close">Cerrar</MudButton>
