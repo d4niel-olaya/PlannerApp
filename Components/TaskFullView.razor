@@ -1,0 +1,32 @@
+
+
+<MudDialog>
+    <DialogContent>
+       
+            <MudContainer MaxWidth="MaxWidth.Medium">
+                <MudText Typo="Typo.caption">@model.TaskState</MudText>
+                <MudPaper  Outlined="true" Height="30%">
+                   <MudText Typo="Typo.body1">
+                         @model.TaskDescription
+                   </MudText>
+                </MudPaper>
+            </MudContainer>
+        
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Close">Cerrar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code{
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter, EditorRequired]
+    public Taskes? model {get;set;}
+
+      private void Close()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+}
