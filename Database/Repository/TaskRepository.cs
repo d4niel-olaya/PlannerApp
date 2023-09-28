@@ -46,7 +46,7 @@ public class TaskRepository : Repository<IDb, Taskes>
         await _dbService.OpenDb();
         using var cmd = _dbService.GetCommand();
         cmd.Connection = _dbService.GetProvider();
-        cmd.CommandText = "SELECT TaskId, TaskName, TaskState FROM Tasks WHERE TaskOwnerId = @U and TaskProjectId = @P";
+        cmd.CommandText = "SELECT TaskId, TaskName, TaskState , IFNULL(TaskDescription, 'No hay una descripción') as TaskDescription FROM Tasks WHERE TaskOwnerId = @U and TaskProjectId = @P";
         cmd.Parameters.AddWithValue("@U", id); // User session id
         cmd.Parameters.AddWithValue("@P", IdProject); // Project id 
         
@@ -57,7 +57,8 @@ public class TaskRepository : Repository<IDb, Taskes>
             {
                 TaskId = reader.GetInt32(0),
                 TaskName = reader.GetString(1),
-                TaskState = reader.GetString(2)
+                TaskState = reader.GetString(2),
+                TaskDescription = reader.GetString(3)
             };
             List.Add(task);
         }
