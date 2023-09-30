@@ -46,9 +46,16 @@
 
 
         <MudPaper Elevation="25" Class="pa-4 my-4" onclick="@(() => OpenTask(context))">
+            <div class="d-flex align-center gap-4">
+                <div>
 
+                     <MudIcon Color="@states[context.TaskState]" Icon="@Icons.Material.Filled.Circle" Size="Size.Small"></MudIcon>
+                </div>
+                <div>
 
-            @context.TaskName
+                    @context.TaskName
+                </div>
+            </div>
 
         </MudPaper>
 
@@ -114,5 +121,12 @@
 
         }
 
+    Dictionary<string, MudBlazor.Color> states = new Dictionary<string, MudBlazor.Color>(){
+            {"Completada", MudBlazor.Color.Success},
+            {"Pendiente", MudBlazor.Color.Warning},
+            {"En Proceso", MudBlazor.Color.Info}
+        };
+
+       
 
 }
