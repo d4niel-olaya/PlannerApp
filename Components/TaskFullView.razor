@@ -1,20 +1,37 @@
-
+@inject ICommentService _commentService
+@inject ISnackbar _alert
 
 <MudDialog>
     <DialogContent>
        
             <MudContainer MaxWidth="MaxWidth.Medium">
-                <MudText Typo="Typo.caption">@model.TaskState</MudText>
                 <br>
-                <MudPaper  Outlined="true" Height="30%">
-                   <MudText Typo="Typo.body1">
+                <div>
+                    <MudText Typo="Typo.body1">
                          @model.TaskDescription
-                   </MudText>
-                </MudPaper>
+                    </MudText>
+                </div>
+                   
+                
                 <br>
                 
-                <MudText Typo="Typo.body1">Comentarios</MudText>
-                <MudTextField T="string"  Variant="Variant.Outlined" Lines="3" Label="Escribe tu comentario"></MudTextField>
+            
+                <MudTextField T="string"  Variant="Variant.Outlined" Lines="3" Label="Escribe tu comentario" @bind-Value="commentModel.Comment" Required="true" RequiredError="Debes escribir un comentario"></MudTextField>
+                <MudButton Color="Color.Success" OnClick="CreateComment">Guardar Comentario</MudButton>
+                <br>
+                <MudText Typo="Typo.caption">Comentarios</MudText>
+                <div class="m-0 overflow-auto" style="height: 10vh;">
+                    <MudPaper Elevation="0" class="d-flex flex-column justify-space-between py-6">
+                        @foreach(var comment in comments)
+                        {
+                            <MudCard>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body2">@comment.Comment</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        }
+                    </MudPaper>
+                </div>
             </MudContainer>
         
     </DialogContent>
@@ -30,6 +47,10 @@
     [Parameter, EditorRequired]
     public Taskes? model {get;set;}
 
+    private Comments commentModel = new Comments();
+
+    private List<Comments> comments = new List<Comments>();
+    
     public MudBlazor.Color ColorState {get;set;}
 
       private void Close()
@@ -37,7 +58,34 @@
         MudDialog.Close(DialogResult.Ok(true));
     }
 
+    protected override async Task OnInitializedAsync()
+    {   
+        _commentService.SetIdTask(model.TaskId);
+        comments = await _commentService.GetComments();
+    }
+    public async Task CreateComment()
+    {   
+        if(!String.IsNullOrEmpty(commentModel.Comment))
+        {
+            commentModel.CommentTaskId = model.TaskId;
+            var result = await _commentService.CreateComment(commentModel);
+            if(result != null)
+            {
+                _alert.Add("Acabas de crear un comentario nuevo", Severity.Success);
+                await OnParametersSetAsync();
+            }
 
-    
+        }
+        //comments = await _commentService.GetComments();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        comments = await _commentService.GetComments();
+        StateHasChanged();
+    }
+
+
+
 
 }
