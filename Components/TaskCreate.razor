@@ -6,7 +6,7 @@
 <MudDialog DisableSidePadding="true">
     <DialogContent>
         <MudContainer>
-            <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="Name"/>
+            <MudTextField T="string" Label="Nombre de tu tarea" Variant="Variant.Text" @bind-Value="Name"/>
             <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="Desc"  Lines="3"/>
             <MudSelect Margin="Margin.Dense" T="string" Label="Estado" Variant="Variant.Outlined" @bind-Value="State">
                 <MudSelectItem Value="@("Pendiente")" />
