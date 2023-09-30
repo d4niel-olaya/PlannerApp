@@ -24,7 +24,7 @@ public class CommentsRepository : Repository<IDb, Comments>
         using (var cmd = _dbService.GetCommand())
         {
             cmd.Connection = _dbService.GetProvider();
-            cmd.CommandText = "INSERT INTO CommentsTasks(CommentTaskId, CommentUsersId, CommentUsers) VALUES(@N, @D, @U)";
+            cmd.CommandText = "INSERT INTO CommentsTasks(CommentTaskId, CommentUsersId, Comment) VALUES(@N, @D, @U)";
             cmd.Parameters.AddWithValue("@N", model.CommentTaskId);
             cmd.Parameters.AddWithValue("@D", id);
             cmd.Parameters.AddWithValue("@U", model.Comment);
@@ -44,7 +44,7 @@ public class CommentsRepository : Repository<IDb, Comments>
          await _dbService.OpenDb();
          using var cmd = _dbService.GetCommand();
         cmd.Connection = _dbService.GetProvider();
-          cmd.CommandText = "SELECT CommentId,CommentTaskId, CommentUsersId, CommentUsers, Comment FROM CommentsTasks WHERE CommentTaskId = @N";
+          cmd.CommandText = "SELECT CommentId,CommentTaskId, CommentUsersId, Comment FROM CommentsTasks WHERE CommentTaskId = @N";
           cmd.Parameters.AddWithValue("@N",_taskId);
           using var reader = await cmd.ExecuteReaderAsync();
           while(await reader.ReadAsync())
