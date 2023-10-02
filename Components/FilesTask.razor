@@ -1,0 +1,22 @@
+@namespace PlannerApp.Components
+
+
+<div class="d-flex">
+    <div>
+        @NameFile
+    </div>
+    <div>
+        <MudImage ObjectFit="ObjectFit.None" Height="200" Width="400" Src="@Path" Alt="@NameFile"  Elevation="25" Class="rounded-lg"/>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string NameFile {get;set;} = string.Empty;
+
+    [Parameter]
+    
+    public string Path {get;set;} = string.Empty;
+}
