@@ -1,6 +1,7 @@
 @inject ICommentService _commentService
 @inject ISnackbar _alert
-
+@inject IConfiguration configuration
+@using PlannerApp.Helpers
 <MudDialog>
     <DialogContent>
        
@@ -17,6 +18,26 @@
                 
             
                 <MudTextField T="string"  Variant="Variant.Outlined" Lines="3" Label="Escribe tu comentario" @bind-Value="commentModel.Comment" Required="true" RequiredError="Debes escribir un comentario"></MudTextField>
+                <MudFileUpload T="IBrowserFile" OnFilesChanged="UploadFiles">
+                <ButtonTemplate>
+                    <MudButton HtmlTag="label"
+                            Variant="Variant.Filled"
+                            Color="Color.Success"
+                            for="@context">
+                        Sube tu archivo
+                    </MudButton>
+                </ButtonTemplate>
+                <SelectedTemplate>
+                    @if (context != null)
+                    {
+                        <MudText>@context.Name</MudText>
+                    }
+                    else
+                    {
+                        <MudText>No File</MudText>
+                    }
+                </SelectedTemplate>
+            </MudFileUpload>
                 <MudButton Color="Color.Success" OnClick="CreateComment">Guardar Comentario</MudButton>
                 <br>
                 <MudText Typo="Typo.caption">Comentarios</MudText>
@@ -85,6 +106,27 @@
         StateHasChanged();
     }
 
+
+     private async Task UploadFiles(InputFileChangeEventArgs e)
+    {
+
+        var client  = new HttpClient();
+        //If SuppressOnChangeWhenInvalid is false, perform your validations here
+        
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StreamContent(e.File.OpenReadStream()), "file", e.File.Name);
+        formData.Add(new StringContent(model.TaskId.ToString()), "id");
+        var url = DataHelper.GetApiUrl(configuration);
+        var response = await client.PostAsync(url,formData);
+        if(response.IsSuccessStatusCode)
+        {
+            _alert.Add("Acabas de subir un archivo", Severity.Success);
+        }
+        else{
+            _alert.Add("No se pudo procesar el archivo vuelve a intentarlo", Severity.Warning);
+        }
+        //TODO upload the files to the server   
+    }
 
 
 
