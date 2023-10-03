@@ -41,7 +41,7 @@ public interface IFileService
 }
 
 public class FileItem{
-    public string Path {get;set;} = string.Empty;
+    public string path {get;set;} = string.Empty;
 
-    public string Name {get;set;} = string.Empty;
+    public string name {get;set;} = string.Empty;
 }
