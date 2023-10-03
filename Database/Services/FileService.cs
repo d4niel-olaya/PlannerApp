@@ -24,7 +24,13 @@ public class FileService : IFileService
             list = JsonSerializer.Deserialize<List<FileItem>>(response);
 
         }
-        return list;
+        if(list == null)
+        {
+            return new List<FileItem>();
+        }
+        else{
+            return list;
+        }
     }
 
 }

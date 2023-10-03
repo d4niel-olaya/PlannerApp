@@ -127,7 +127,7 @@
         var formData = new MultipartFormDataContent();
         formData.Add(new StreamContent(e.File.OpenReadStream()), "file", e.File.Name);
         formData.Add(new StringContent(model.TaskId.ToString()), "id");
-        var url = DataHelper.GetApiUrl(configuration);
+        var url = DataHelper.GetApiUrl(configuration)+"/files";
         var response = await client.PostAsync(url,formData);
         if(response.IsSuccessStatusCode)
         {
