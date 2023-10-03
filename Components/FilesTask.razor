@@ -1,0 +1,30 @@
+@namespace PlannerApp.Components
+
+<MudLink Href="@Path">
+
+
+    <MudPaper  Class="d-flex align-center p-2" Elevation="0" >
+            
+            <div class="p-2">
+                <MudImage Src="@Path" Width="50"></MudImage>
+            </div>
+            <div class="p-2">
+                @NameFile
+            </div>
+            
+    
+        
+    </MudPaper>
+
+</MudLink>
+
+
+
+@code {
+    [Parameter]
+    public string NameFile {get;set;} = string.Empty;
+
+    [Parameter]
+    
+    public string Path {get;set;} = string.Empty;
+}

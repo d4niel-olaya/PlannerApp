@@ -45,6 +45,7 @@ builder.Services.AddScoped<CommentsRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IFileService, FileService>();
 //builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
 
