@@ -23,9 +23,10 @@
                 @if(files.Count > 0)
                 {
 
-                    @foreach(var file in files)
+                    @foreach(var item in files)
                     {
-                        <FilesTask Path="@file.Path" NameFile="@file.Name"/>
+                        
+                        <FilesTask Path="item.Path" NameFile="item.Name"></FilesTask>
                     }
                 }
                 <MudFileUpload T="IBrowserFile" OnFilesChanged="UploadFiles">
