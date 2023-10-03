@@ -16,7 +16,7 @@ public class FileService : IFileService
     {
         var client = new HttpClient();
         var list = new List<FileItem>();
-        var result = await client.GetAsync(DataHelper.GetApiUrl(_configuration)+"/taskFiles/"+id.ToString());
+        var result = await client.GetAsync(DataHelper.GetApiUrl(_configuration)+"/taskfiles/"+id);
         if(result.IsSuccessStatusCode)
         {
             var response = await result.Content.ReadAsStringAsync();

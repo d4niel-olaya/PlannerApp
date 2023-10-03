@@ -20,9 +20,13 @@
                 
             
                 <MudTextField T="string"  Variant="Variant.Outlined" Lines="3" Label="Escribe tu comentario" @bind-Value="commentModel.Comment" Required="true" RequiredError="Debes escribir un comentario"></MudTextField>
-                @foreach(var file in files)
+                @if(files.Count > 0)
                 {
-                    <FilesTask Path="@file.Path" NameFile="@file.Name"/>
+
+                    @foreach(var file in files)
+                    {
+                        <FilesTask Path="@file.Path" NameFile="@file.Name"/>
+                    }
                 }
                 <MudFileUpload T="IBrowserFile" OnFilesChanged="UploadFiles">
                 <ButtonTemplate>
