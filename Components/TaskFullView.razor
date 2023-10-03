@@ -26,7 +26,7 @@
                     @foreach(var item in files)
                     {
                         
-                        <FilesTask Path="item.Path" NameFile="item.Name"></FilesTask>
+                        <FilesTask Path="@item.path" NameFile="@item.name"></FilesTask>
                     }
                 }
                 <MudFileUpload T="IBrowserFile" OnFilesChanged="UploadFiles">
