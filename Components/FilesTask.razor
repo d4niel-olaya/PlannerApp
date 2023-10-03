@@ -1,14 +1,22 @@
 @namespace PlannerApp.Components
 
+<MudLink Href="@Path">
 
-<div class="d-flex">
-    <div>
-        @NameFile
-    </div>
-    <div>
-        <MudImage ObjectFit="ObjectFit.None" Height="200" Width="400" Src="@Path" Alt="@NameFile"  Elevation="25" Class="rounded-lg"/>
-    </div>
-</div>
+
+    <MudPaper  Class="d-flex align-center p-2" Elevation="0" >
+            
+            <div class="p-2">
+                <MudImage Src="@Path" Width="50"></MudImage>
+            </div>
+            <div class="p-2">
+                @NameFile
+            </div>
+            
+    
+        
+    </MudPaper>
+
+</MudLink>
 
 
 

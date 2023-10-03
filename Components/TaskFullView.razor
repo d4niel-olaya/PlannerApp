@@ -1,6 +1,8 @@
 @inject ICommentService _commentService
 @inject ISnackbar _alert
 @inject IConfiguration configuration
+@inject IFileService _fileService
+@using PlannerApp.Database.Services
 @using PlannerApp.Helpers
 <MudDialog>
     <DialogContent>
@@ -18,6 +20,10 @@
                 
             
                 <MudTextField T="string"  Variant="Variant.Outlined" Lines="3" Label="Escribe tu comentario" @bind-Value="commentModel.Comment" Required="true" RequiredError="Debes escribir un comentario"></MudTextField>
+                @foreach(var file in files)
+                {
+                    <FilesTask Path="@file.Path" NameFile="@file.Name"/>
+                }
                 <MudFileUpload T="IBrowserFile" OnFilesChanged="UploadFiles">
                 <ButtonTemplate>
                     <MudButton HtmlTag="label"
@@ -71,6 +77,10 @@
     private Comments commentModel = new Comments();
 
     private List<Comments> comments = new List<Comments>();
+
+    private List<FileItem> files = new List<FileItem>();
+
+
     
     public MudBlazor.Color ColorState {get;set;}
 
@@ -83,6 +93,7 @@
     {   
         _commentService.SetIdTask(model.TaskId);
         comments = await _commentService.GetComments();
+        files = await _fileService.GetFiles(model.TaskId);
     }
     public async Task CreateComment()
     {   
@@ -121,6 +132,8 @@
         if(response.IsSuccessStatusCode)
         {
             _alert.Add("Acabas de subir un archivo", Severity.Success);
+            files = await _fileService.GetFiles(model.TaskId);
+            StateHasChanged();
         }
         else{
             _alert.Add("No se pudo procesar el archivo vuelve a intentarlo", Severity.Warning);
