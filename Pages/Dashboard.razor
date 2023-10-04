@@ -68,7 +68,7 @@
 
     private void OpenDialog()
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium };
         
         DialogService.Show<ProjectCreate>("Crea tu proyecto", options);
         
