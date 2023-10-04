@@ -17,9 +17,8 @@
                    
                 
                 <br>
-                
+                <br>
             
-                <MudTextField T="string"  Variant="Variant.Outlined" Lines="3" Label="Escribe tu comentario" @bind-Value="commentModel.Comment" Required="true" RequiredError="Debes escribir un comentario"></MudTextField>
                 @if(files.Count > 0)
                 {
 
@@ -43,13 +42,18 @@
                     {
                         <MudText>@context.Name</MudText>
                     }
-                    else
-                    {
-                        <MudText>No File</MudText>
-                    }
+                    
                 </SelectedTemplate>
             </MudFileUpload>
-                <MudButton Color="Color.Success" OnClick="CreateComment">Guardar Comentario</MudButton>
+                <br>
+                <br>
+                <MudTextField T="string"  Variant="Variant.Outlined" Lines="3" Label="Escribe tu comentario" @bind-Value="commentModel.Comment" Required="true" RequiredError="Debes escribir un comentario"></MudTextField>
+                <div class="d-flex justify-end">
+                    <div class="mr-2">
+                        <MudButton Color="Color.Success" OnClick="CreateComment">Guardar Comentario</MudButton>
+                    </div> 
+                </div>
+                <br>
                 <br>
                 <MudText Typo="Typo.caption">Comentarios</MudText>
                 <div class="m-0 overflow-auto" style="height: 10vh;">
@@ -110,6 +114,7 @@
             {
                 _alert.Add("Acabas de crear un comentario nuevo", Severity.Success);
                 await OnParametersSetAsync();
+                commentModel.Comment = string.Empty;
             }
 
         }

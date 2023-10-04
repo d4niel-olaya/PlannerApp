@@ -6,16 +6,20 @@
 
 
 <MudDialog DisableSidePadding="true">
-    <DialogContent>
-        <MudContainer>
-            <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="model.ProjectName"/>
-            <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.ProjectDescription"/>
-        </MudContainer>
-    </DialogContent>
-    <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Ok">Accept</MudButton>
-        <MudButton Color="Color.Success" OnClick="SendData">Enviar</MudButton>
-    </DialogActions>
+
+
+        <DialogContent>
+            <MudContainer>
+                <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="model.ProjectName"/>
+                <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.ProjectDescription" Lines="3"/>
+            </MudContainer>
+        </DialogContent>
+    
+        <DialogActions>
+            <MudButton Color="Color.Primary" OnClick="Ok">Salir</MudButton>
+            <MudButton Color="Color.Success" OnClick="SendData">Crear</MudButton>
+        </DialogActions>
+        
 </MudDialog>
 
 

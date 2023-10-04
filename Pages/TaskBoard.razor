@@ -5,9 +5,9 @@
 @inject ITaskService _taskService
 @page "/tasks/{id:int}/{created?}"
 
-<div class="d-flex justify-start">
-    <div class="ml-3">
-        <MudButton  StartIcon="@Icons.Material.Filled.Add" FullWidth="true" Class="rounded-lg py-2" OnClick="OpenDialog">Agregar tarea</MudButton>
+<div>
+    <div class="mt-4 ml-16">
+       <MudFab Style="@($"background:#3AB394;color:white;")" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenDialog" Size="Size.Small" Label="Nueva Tarea"/>
     </div>
 </div>
 <MudDropContainer T="Taskes" Items="_items" ItemsSelector="@((item,dropzone) => item.TaskState== dropzone)"

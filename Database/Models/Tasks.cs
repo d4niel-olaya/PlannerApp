@@ -10,5 +10,5 @@ public class Taskes
     public DateTime? TaskEndDate { get; set; }
     public int TaskProjectId { get; set; }
     public long TaskOwnerId { get; set; }
-    public string TaskState { get; set; } = "To do";
+    public string TaskState { get; set; } = "Pendiente";
 }
