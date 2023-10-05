@@ -15,13 +15,13 @@ public class CommentService : ICommentService
     public async Task<Comments> CreateComment(Comments model)
     {
         var comment = await _commentsRepository.CreateAsync(model);
-        return comment;
+        return (Comments)comment.obj;
     }
 
     public async Task<List<Comments>> GetComments()
     {
         var commentsList = await _commentsRepository.GetAsync();
-        return commentsList;
+        return (List<Comments>)commentsList.obj;
     }
 
     public void SetIdTask(int id)
