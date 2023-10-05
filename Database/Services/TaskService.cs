@@ -17,12 +17,14 @@ public class TaskService : ITaskService
      }
     public async Task<Taskes> CreateTask(Taskes model)
     {
-        return await _taskRepository.CreateAsync(model);
+        var result = await _taskRepository.CreateAsync(model);
+        return (Taskes)result.obj;
     }
 
     public async Task<List<Taskes>> GetTaskes()
     {
-        return  await _taskRepository.GetAsync();
+        var result = await _taskRepository.GetAsync();
+        return (List<Taskes>)result.obj;
     }
 
     public void SetProjectId(int id)
@@ -32,7 +34,8 @@ public class TaskService : ITaskService
 
     public async Task<Taskes> UpdateTask(Taskes model)
     {
-        return await _taskRepository.UpdateAsync(model);
+        var result = await _taskRepository.UpdateAsync(model);
+        return (Taskes) result.obj;
     }
 }
 

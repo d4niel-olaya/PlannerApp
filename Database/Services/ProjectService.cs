@@ -16,12 +16,14 @@ public class ProjectService : IProjectService
     }
     public async Task<Project> CreateProject(Project model)
     {
-        return await _projectRepository.CreateAsync(model);
+        var result = await _projectRepository.CreateAsync(model);
+        return (Project)result.obj;
     }
 
     public async  Task<List<Project>> GetProjects()
     {
-        return await _projectRepository.GetAsync();
+       var result =  await _projectRepository.GetAsync();
+       return (List<Project>)result.obj;
     }
 
 }

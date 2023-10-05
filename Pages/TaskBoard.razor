@@ -77,7 +77,7 @@
         var TaskToUpdate = dropItem.Item == null ? new Taskes() : dropItem.Item;
         TaskToUpdate.TaskState = dropItem.DropzoneIdentifier; // setting DropZoneIdentifier as Task State
         var TaskUpdated = await _taskService.UpdateTask(TaskToUpdate);
-        if (TaskUpdated != null)
+        if (TaskUpdated.TaskId != 0)
         {
             dropItem.Item.TaskState = dropItem.DropzoneIdentifier;
         }
