@@ -24,7 +24,7 @@
 
 
         <MudDropZone T="Taskes" Identifier="En Proceso"
-            Class="rounded mud-background-gray pa-12 ma-8 flex-grow-1">
+            Class="rounded mud-background-gray pa-12 ma-8 flex-grow-1 overflow-hidden">
 
 
             <MudText Typo="Typo.h6" Class="mb-4">En Proceso</MudText>
@@ -45,7 +45,7 @@
     <ItemRenderer>
 
 
-        <MudPaper Elevation="25" Class="pa-4 my-4" onclick="@(() => OpenTask(context))">
+        <MudPaper Elevation="25" Class="pa-4 my-4 overflow-hidden" onclick="@(() => OpenTask(context))">
             <div class="d-flex align-center gap-4">
                 <div>
 

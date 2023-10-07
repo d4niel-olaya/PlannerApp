@@ -97,7 +97,7 @@ public class ProjectsRepository : Repository<IDb, Project, Response>
                 cmd.Connection = _dbService.GetProvider();
                 cmd.CommandText = "UPDATE Projects SET ProjectName = @N WHERE ProjectId = @P";
                 cmd.Parameters.AddWithValue("@N",model.ProjectName);
-                cmd.Parameters.AddWithValue("@D",model.ProjectId);
+                cmd.Parameters.AddWithValue("@P",model.ProjectId);
                 //cmd.Parameters.AddWithValue("@R",user.UserRole);
                 await cmd.ExecuteNonQueryAsync();
                 

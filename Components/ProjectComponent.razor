@@ -2,16 +2,18 @@
 @using PlannerApp.Database.Models
 @using PlannerApp.Database
 @inject NavigationManager navigation
+@inject IProjectService _projectService
+@inject ISnackbar alert
 
-<MudCard Outlined="true" onclick="@GoToTask">
-    <MudCardHeader>
+<MudCard Outlined="true" onclick="@GoToTask" >
+    <MudCardHeader Class="overflow-hidden">
         <CardHeaderContent>
-             <div class="d-flex align-center justify-space-around" onclick="@Edit">
+             <div class="d-flex align-center justify-space-around overflow-hidden" onclick="@EditFlag">
                
                 @if(editflag)
                 {
                     <MudTextField @bind-Value="@ProjectName" Variant="Variant.Outlined"></MudTextField>
-                    <MudFab Icon="@Icons.Material.Outlined.Check" Size="Size.Small" DisableElevation="true"></MudFab>
+                    <MudFab Icon="@Icons.Material.Outlined.Check" Size="Size.Small" DisableElevation="true" OnClick="EditProject"></MudFab>
                     <MudFab Icon="@Icons.Material.Outlined.Close" Size="Size.Small" DisableElevation="true" OnClick="CloseEdit"></MudFab>
                 }   
                 else{
@@ -24,7 +26,7 @@
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
-       <MudText Typo="Typo.body2">@project.ProjectDescription</MudText> 
+       <MudText Typo="Typo.body2" Class="overflow-hidden">@project.ProjectDescription</MudText>
     </MudCardContent>
 </MudCard>
 
@@ -35,12 +37,12 @@
     public string ProjectName {get;set;} = string.Empty;
     public bool editflag {get;set;} = false;
 
-        protected override void OnInitialized()
-        {
-           ProjectName = project.ProjectName;
-        }
+    protected override void OnInitialized()
+    {
+        ProjectName = project.ProjectName;
+    }
 
-    public void Edit()
+    public void EditFlag()
     {
         editflag = true;
     }
@@ -57,5 +59,20 @@
         editflag = false;
     }
     
+
+    public async Task EditProject()
+    {
+        project.ProjectName = ProjectName;
+        var result = await _projectService.UpdateProject(project);
+        if(result.ProjectId != 0)
+        {
+            alert.Add("Acabas de editar tu proyecto", Severity.Success);
+            
+        }
+        else{
+            alert.Add("Algo ha salido mal, recarga la página", Severity.Warning);
+        }
+        CloseEdit();
+    }
      
 }
