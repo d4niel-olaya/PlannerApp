@@ -1,12 +1,24 @@
 @namespace PlannerApp.Components
 @using PlannerApp.Database.Models
 @using PlannerApp.Database
+@inject NavigationManager navigation
 
-
-<MudCard Outlined="true">
+<MudCard Outlined="true" onclick="@GoToTask">
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.h6">@project.ProjectName</MudText>
+             <div class="d-flex align-center justify-space-between">
+                @if(editflag)
+                {
+                    <MudTextField @bind-Value="@project.ProjectName" Variant="Variant.Outlined"></MudTextField>
+                    <MudFab Icon="@Icons.Material.Outlined.CheckCircleOutline"></MudFab>
+                }
+                else{
+                    <MudText Typo="Typo.h6">@project.ProjectName</MudText>
+                }
+
+                <MudFab Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" DisableElevation="true" OnClick="Edit"></MudFab>
+
+            </div>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
@@ -18,4 +30,21 @@
     [Parameter]
     public PlannerApp.Database.Models.Project project {get;set;} = new PlannerApp.Database.Models.Project();
 
+
+    public bool editflag {get;set;} = false;
+
+    public void Edit()
+    {
+        editflag = !editflag;
+    }
+
+    public void GoToTask()
+    {
+        if(editflag == false)
+        {
+            navigation.NavigateTo($"/tasks/{project.ProjectId}");
+        }
+    }
+    
+     
 }
