@@ -26,6 +26,12 @@ public class ProjectService : IProjectService
        return (List<Project>)result.obj;
     }
 
+    public async Task<Project> UpdateProject(Project model)
+    {
+        var result = await _projectRepository.UpdateAsync(model);
+        return (Project)result.obj;
+    }
+
 }
 
 
@@ -33,4 +39,6 @@ public interface IProjectService
 {
     Task<Project> CreateProject(Project model);
     Task<List<Project>> GetProjects();
+
+    Task<Project> UpdateProject(Project model);
 }

@@ -6,7 +6,7 @@
 <MudDialog DisableSidePadding="true">
     <DialogContent>
         <MudContainer>
-            <MudTextField T="string" Label="Nombre de tu tarea" Variant="Variant.Text" @bind-Value="model.TaskName"/>
+            <MudTextField T="string" Label="Nombre de tu tarea" Variant="Variant.Text" @bind-Value="model.TaskName" MaxLength="50"/>
             <br>
             <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.TaskDescription"  Lines="3"/>
             <br>

@@ -1,16 +1,32 @@
 @namespace PlannerApp.Components
 @using PlannerApp.Database.Models
 @using PlannerApp.Database
+@inject NavigationManager navigation
+@inject IProjectService _projectService
+@inject ISnackbar alert
 
-
-<MudCard Outlined="true">
-    <MudCardHeader>
+<MudCard Outlined="true" onclick="@GoToTask" >
+    <MudCardHeader Class="overflow-hidden">
         <CardHeaderContent>
-            <MudText Typo="Typo.h6">@project.ProjectName</MudText>
+             <div class="d-flex align-center justify-space-around overflow-hidden" onclick="@EditFlag">
+               
+                @if(editflag)
+                {
+                    <MudTextField @bind-Value="@ProjectName" Variant="Variant.Outlined"></MudTextField>
+                    <MudFab Icon="@Icons.Material.Outlined.Check" Size="Size.Small" DisableElevation="true" OnClick="EditProject"></MudFab>
+                    <MudFab Icon="@Icons.Material.Outlined.Close" Size="Size.Small" DisableElevation="true" OnClick="CloseEdit"></MudFab>
+                }   
+                else{
+                    <MudText Typo="Typo.h6">@project.ProjectName</MudText>
+                }
+
+                
+
+            </div>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
-       <MudText Typo="Typo.body2">@project.ProjectDescription</MudText> 
+       <MudText Typo="Typo.body2" Class="overflow-hidden">@project.ProjectDescription</MudText>
     </MudCardContent>
 </MudCard>
 
@@ -18,4 +34,45 @@
     [Parameter]
     public PlannerApp.Database.Models.Project project {get;set;} = new PlannerApp.Database.Models.Project();
 
+    public string ProjectName {get;set;} = string.Empty;
+    public bool editflag {get;set;} = false;
+
+    protected override void OnInitialized()
+    {
+        ProjectName = project.ProjectName;
+    }
+
+    public void EditFlag()
+    {
+        editflag = true;
+    }
+
+    public void GoToTask()
+    {
+        if(editflag == false)
+        {
+            navigation.NavigateTo($"/tasks/{project.ProjectId}");
+        }
+    }
+
+    public void CloseEdit(){
+        editflag = false;
+    }
+    
+
+    public async Task EditProject()
+    {
+        project.ProjectName = ProjectName;
+        var result = await _projectService.UpdateProject(project);
+        if(result.ProjectId != 0)
+        {
+            alert.Add("Acabas de editar tu proyecto", Severity.Success);
+            
+        }
+        else{
+            alert.Add("Algo ha salido mal, recarga la página", Severity.Warning);
+        }
+        CloseEdit();
+    }
+     
 }

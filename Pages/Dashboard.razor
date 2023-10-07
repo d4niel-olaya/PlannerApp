@@ -22,8 +22,9 @@
             {
                 @foreach(var prj in ListProjects)
                 {
-                    <MudItem xs="6" sm="3" @onclick="() => GoToTask(prj)">
+                    <MudItem xs="3" sm="3">
                         <ProjectComponent project="prj"/>   
+                        
                     </MudItem>
                 }
             }
@@ -80,8 +81,5 @@
     }
     
 
-    public void GoToTask(Project model)
-    {
-        navigation.NavigateTo($"/tasks/{model.ProjectId}");
-    }
+    
 }
