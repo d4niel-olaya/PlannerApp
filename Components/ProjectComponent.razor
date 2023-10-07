@@ -6,17 +6,19 @@
 <MudCard Outlined="true" onclick="@GoToTask">
     <MudCardHeader>
         <CardHeaderContent>
-             <div class="d-flex align-center justify-space-between">
+             <div class="d-flex align-center justify-space-around" onclick="@Edit">
+               
                 @if(editflag)
                 {
-                    <MudTextField @bind-Value="@project.ProjectName" Variant="Variant.Outlined"></MudTextField>
-                    <MudFab Icon="@Icons.Material.Outlined.CheckCircleOutline"></MudFab>
-                }
+                    <MudTextField @bind-Value="@ProjectName" Variant="Variant.Outlined"></MudTextField>
+                    <MudFab Icon="@Icons.Material.Outlined.Check" Size="Size.Small" DisableElevation="true"></MudFab>
+                    <MudFab Icon="@Icons.Material.Outlined.Close" Size="Size.Small" DisableElevation="true" OnClick="CloseEdit"></MudFab>
+                }   
                 else{
                     <MudText Typo="Typo.h6">@project.ProjectName</MudText>
                 }
 
-                <MudFab Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" DisableElevation="true" OnClick="Edit"></MudFab>
+                
 
             </div>
         </CardHeaderContent>
@@ -30,12 +32,17 @@
     [Parameter]
     public PlannerApp.Database.Models.Project project {get;set;} = new PlannerApp.Database.Models.Project();
 
-
+    public string ProjectName {get;set;} = string.Empty;
     public bool editflag {get;set;} = false;
+
+        protected override void OnInitialized()
+        {
+           ProjectName = project.ProjectName;
+        }
 
     public void Edit()
     {
-        editflag = !editflag;
+        editflag = true;
     }
 
     public void GoToTask()
@@ -44,6 +51,10 @@
         {
             navigation.NavigateTo($"/tasks/{project.ProjectId}");
         }
+    }
+
+    public void CloseEdit(){
+        editflag = false;
     }
     
      
