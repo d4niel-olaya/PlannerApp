@@ -130,23 +130,27 @@
 
      private async Task UploadFiles(InputFileChangeEventArgs e)
     {
-
-        var client  = new HttpClient();
-        //If SuppressOnChangeWhenInvalid is false, perform your validations here
-        
-        var formData = new MultipartFormDataContent();
-        formData.Add(new StreamContent(e.File.OpenReadStream()), "file", e.File.Name);
-        formData.Add(new StringContent(model.TaskId.ToString()), "id");
-        var url = DataHelper.GetApiUrl(configuration)+"/files";
-        var response = await client.PostAsync(url,formData);
-        if(response.IsSuccessStatusCode)
-        {
-            _alert.Add("Acabas de subir un archivo", Severity.Success);
-            files = await _fileService.GetFiles(model.TaskId);
-            StateHasChanged();
-        }
-        else{
-            _alert.Add("No se pudo procesar el archivo vuelve a intentarlo", Severity.Warning);
+        var type = e.File.ContentType;
+        if(type.Contains("image") && (type.Split("/")[1] == "jpeg" || type.Split("/")[1] == "png" || type.Split("/")[1] == "jpg")){
+            var client  = new HttpClient();
+            //If SuppressOnChangeWhenInvalid is false, perform your validations here
+            
+            var formData = new MultipartFormDataContent();
+            formData.Add(new StreamContent(e.File.OpenReadStream()), "file", e.File.Name);
+            formData.Add(new StringContent(model.TaskId.ToString()), "id");
+            var url = DataHelper.GetApiUrl(configuration)+"/files";
+            var response = await client.PostAsync(url,formData);
+            if(response.IsSuccessStatusCode)
+            {
+                _alert.Add("Acabas de subir un archivo", Severity.Success);
+                files = await _fileService.GetFiles(model.TaskId);
+                StateHasChanged();
+            }
+            else{
+                _alert.Add("No se pudo procesar el archivo vuelve a intentarlo", Severity.Warning);
+            }
+        }else{
+            _alert.Add("El archivo debe ser una imagen", Severity.Warning);
         }
         //TODO upload the files to the server   
     }
