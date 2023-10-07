@@ -86,8 +86,28 @@ public class ProjectsRepository : Repository<IDb, Project, Response>
 
 
 
-    public override Task<Response> UpdateAsync(Project model)
+    public override async Task<Response> UpdateAsync(Project model)
     {
-        throw new NotImplementedException();
+        try{
+
+            await _dbService.OpenDb();
+            var id = await _local.GetId();
+            using(var cmd = _dbService.GetCommand())
+            {
+                cmd.Connection = _dbService.GetProvider();
+                cmd.CommandText = "UPDATE Projects SET ProjectName = @N WHERE ProjectId = @P";
+                cmd.Parameters.AddWithValue("@N",model.ProjectName);
+                cmd.Parameters.AddWithValue("@D",model.ProjectId);
+                //cmd.Parameters.AddWithValue("@R",user.UserRole);
+                await cmd.ExecuteNonQueryAsync();
+                
+            }
+            await _dbService.CloseDb();
+            return new Response(204, new Project{ ProjectName = model.ProjectName, ProjectId = model.ProjectId}, "Updated");
+            
+        }catch(Exception e)
+        {
+            return new Response(500, new Project(), e.Message);
+        }
     }
 }
