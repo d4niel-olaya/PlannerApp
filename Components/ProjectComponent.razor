@@ -21,12 +21,21 @@
                 }
 
                 
-
+            
             </div>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
-       <MudText Typo="Typo.body2" Class="overflow-hidden">@project.ProjectDescription</MudText>
+        <div class="@($"d-flex align-center {align} overflow-hidden")" onclick="@EditFlagDesc">
+            @if(editflagdesc)
+            {
+                <MudTextField @bind-Value="@ProjectDesc" Variant="Variant.Outlined" Lines="3"></MudTextField>
+                <MudFab Icon="@Icons.Material.Outlined.Check" Size="Size.Small" DisableElevation="true" OnClick="EditProject"></MudFab>
+                <MudFab Icon="@Icons.Material.Outlined.Close" Size="Size.Small" DisableElevation="true" OnClick="CloseEditDesc"></MudFab>
+            }else{
+                <MudText Typo="Typo.body2" Class="overflow-hidden">@project.ProjectDescription</MudText>
+            }
+        </div>
     </MudCardContent>
 </MudCard>
 
@@ -35,11 +44,18 @@
     public PlannerApp.Database.Models.Project project {get;set;} = new PlannerApp.Database.Models.Project();
 
     public string ProjectName {get;set;} = string.Empty;
+
+    public string ProjectDesc {get;set;} = string.Empty;
     public bool editflag {get;set;} = false;
+
+    public bool editflagdesc {get;set;} = false;
+
+    public string align {get;set;} = "justify-start";
 
     protected override void OnInitialized()
     {
         ProjectName = project.ProjectName;
+        ProjectDesc = project.ProjectDescription;
     }
 
     public void EditFlag()
@@ -49,7 +65,7 @@
 
     public void GoToTask()
     {
-        if(editflag == false)
+        if(editflag == false && editflagdesc == false)
         {
             navigation.NavigateTo($"/tasks/{project.ProjectId}");
         }
@@ -58,11 +74,24 @@
     public void CloseEdit(){
         editflag = false;
     }
+
+    public void CloseEditDesc()
+    {
+        editflagdesc = false;
+        align = "justify-start";
+    }
+
+    public void EditFlagDesc()
+    {
+        editflagdesc = true;
+        align= "justify-space-around";
+    }
     
 
     public async Task EditProject()
     {
         project.ProjectName = ProjectName;
+        project.ProjectDescription = ProjectDesc;
         var result = await _projectService.UpdateProject(project);
         if(result.ProjectId != 0)
         {
@@ -73,6 +102,7 @@
             alert.Add("Algo ha salido mal, recarga la página", Severity.Warning);
         }
         CloseEdit();
+        CloseEditDesc();
     }
      
 }

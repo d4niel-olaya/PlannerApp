@@ -6,7 +6,7 @@
 <MudDialog DisableSidePadding="true">
     <DialogContent>
         <MudContainer>
-            <MudTextField T="string" Label="Nombre de tu tarea" Variant="Variant.Text" @bind-Value="model.TaskName" MaxLength="50"/>
+            <MudTextField T="string" Label="Nombre de tu tarea" Variant="Variant.Text" @bind-Value="model.TaskName" MaxLength="50" Required RequiredError="Requerido"/>
             <br>
             <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.TaskDescription"  Lines="3"/>
             <br>
@@ -46,15 +46,21 @@
 
     private async Task SendData()
     {
-       
-      model.TaskProjectId = IdProject;
-       var created =  await _taskService.CreateTask(model);
-       if(created != null)
+       if(!string.IsNullOrEmpty(model.TaskName.Trim()))
        {
-        _alert.Add("Acabas de crear una tarea nueva", Severity.Success);
-        MudDialog.Close(DialogResult.Ok(true));
-        
-        Navigation.NavigateTo($"/tasks/{created.TaskProjectId}/created");
+
+        model.TaskProjectId = IdProject;
+        var created =  await _taskService.CreateTask(model);
+        if(created != null)
+        {
+            _alert.Add("Acabas de crear una tarea nueva", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(true));
+            
+            Navigation.NavigateTo($"/tasks/{created.TaskProjectId}/created");
+        }
+       }
+       else{
+              _alert.Add("Debes rellenar los espacios obligatorios", Severity.Warning);
        }
 
        
