@@ -71,7 +71,7 @@ public class ProjectsRepository : Repository<IDb, Project, Response>
                 {
                     ProjectId = reader.GetInt32(0),
                     ProjectName = reader.GetString(1),
-                    ProjectDescription = reader.GetString(2)
+                    ProjectDescription = string.IsNullOrEmpty(reader.GetString(2)) ? "No hay descripción" : reader.GetString(2)
                 };
                 projectList.Add(project);
             }
@@ -95,9 +95,10 @@ public class ProjectsRepository : Repository<IDb, Project, Response>
             using(var cmd = _dbService.GetCommand())
             {
                 cmd.Connection = _dbService.GetProvider();
-                cmd.CommandText = "UPDATE Projects SET ProjectName = @N WHERE ProjectId = @P";
+                cmd.CommandText = "UPDATE Projects SET ProjectName = @N, ProjectDescription = @D WHERE ProjectId = @P";
                 cmd.Parameters.AddWithValue("@N",model.ProjectName);
                 cmd.Parameters.AddWithValue("@P",model.ProjectId);
+                cmd.Parameters.AddWithValue("@D",model.ProjectDescription);
                 //cmd.Parameters.AddWithValue("@R",user.UserRole);
                 await cmd.ExecuteNonQueryAsync();
                 

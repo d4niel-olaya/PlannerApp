@@ -10,7 +10,7 @@
 
         <DialogContent>
             <MudContainer>
-                <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="model.ProjectName" MaxLength="100"/>
+                <MudTextField T="string" Label="Nombre de tu proyecto" Variant="Variant.Text" @bind-Value="model.ProjectName" MaxLength="100" Required RequiredError="Campo obligatorio"/>
                 <MudTextField T="string" Label="Descripción" Variant="Variant.Text" @bind-Value="model.ProjectDescription" Lines="3"/>
             </MudContainer>
         </DialogContent>
@@ -40,15 +40,21 @@
     private async Task SendData()
     {
 
-       
-       var created =  await _projectService.CreateProject(model);
-       if(created != null)
+       if(!string.IsNullOrEmpty(model.ProjectName.Trim()))
        {
-        _alert.Add("Acabas de crear un proyecto nuevo", Severity.Success);
+            var created =  await _projectService.CreateProject(model);
+            if(created != null)
+            {
+                _alert.Add("Acabas de crear un proyecto nuevo", Severity.Success);
+            }
+            MudDialog.Close(DialogResult.Ok(true));
+            
+            Navigation.NavigateTo("/dashboard/created");
        }
-       MudDialog.Close(DialogResult.Ok(true));
-      
-       Navigation.NavigateTo("/dashboard/created");
+       else{
+
+            _alert.Add("Debes rellenar los espacios obligatorios", Severity.Warning);
+       }
        
     }
 
