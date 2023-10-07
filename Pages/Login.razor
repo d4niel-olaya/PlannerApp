@@ -7,6 +7,7 @@
 @inject AuthenticationStateProvider authProvider
 @inject UserTemp _userTemp
 @inject UserLocalStorage localStorage
+@inject ISnackbar alert
 
 @page "/login"
 
@@ -18,10 +19,10 @@
     <MudCardContent>
             <MudText Typo="Typo.h3" Align="Align.Center" >Iniciar sesión</MudText>
             <div class="space-top">
-                <MudTextField T="string" Label="Usuario" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Person" @bind-Value="_model.UserName" />
+                <MudTextField T="string" Label="Email" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Person" @bind-Value="_model.UserName" Required RequiredError="Campo obligatorio"/>
             </div>
             <div class="space-top">
-                <MudTextField T="string"  Label="Contraseña" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password"  @bind-Value="_model.Password" @onkeydown="@AuthenticateEnter"/>
+                <MudTextField T="string"  Label="Contraseña" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password"  @bind-Value="_model.Password" @onkeydown="@AuthenticateEnter" Required RequiredError="Campo obligatorio"/>
             </div>
             <MudButton Variant="Variant.Filled" FullWidth="true"  Style="@($"background:#3AB394;margin-top:1rem;color:white;")" OnClick="Authenticate" >Inicia sesión</MudButton>
             <div class="space-top">
@@ -62,31 +63,12 @@
 
     async Task Authenticate()
     {
-        var userAccount = await userService.GetUser(_model.UserName);
-        if(userAccount == null || userAccount.Password != _model.Password)
-        {   
-            await js.InvokeVoidAsync("alert", "Contraseña invalida");
-            return;
-        }
-        //await localStorage.SetAsync("Id",userAccount.UserId);
-        var customAuthProvider = (CustomAuthenticacion)authProvider;
-        await localStorage.SetId(userAccount.UserId);
-        await customAuthProvider.UpdateAuthenticacionState(new UserSession{
-            UserName = userAccount.User,
-            Role = userAccount.Role
-        });
 
-       
-        navigationManager.NavigateTo("/dashboard",true);
-    }
-
-
-    async Task AuthenticateEnter(KeyboardEventArgs e)
-    {
-        if(e.Code == "Enter" || e.Code == "NumpadEnter") // Validate the key
-        {
+         if(!string.IsNullOrEmpty(_model.UserName.Trim()) && !string.IsNullOrEmpty(_model.Password.Trim()))
+         {
 
             var userAccount = await userService.GetUser(_model.UserName);
+            
             if(userAccount == null || userAccount.Password != _model.Password)
             {   
                 await js.InvokeVoidAsync("alert", "Contraseña invalida");
@@ -102,6 +84,38 @@
 
         
             navigationManager.NavigateTo("/dashboard",true);
+         }else{
+                alert.Add("Debes llenar los campos obligatorios", Severity.Warning);
+            }
+    }
+
+
+    async Task AuthenticateEnter(KeyboardEventArgs e)
+    {
+        if(e.Code == "Enter" || e.Code == "NumpadEnter") // Validate the key
+        {
+            if(!string.IsNullOrEmpty(_model.UserName.Trim()) && !string.IsNullOrEmpty(_model.Password.Trim()))
+            {
+
+                var userAccount = await userService.GetUser(_model.UserName);
+                if(userAccount == null || userAccount.Password != _model.Password)
+                {   
+                    await js.InvokeVoidAsync("alert", "Contraseña invalida");
+                    return;
+                }
+                //await localStorage.SetAsync("Id",userAccount.UserId);
+                var customAuthProvider = (CustomAuthenticacion)authProvider;
+                await localStorage.SetId(userAccount.UserId);
+                await customAuthProvider.UpdateAuthenticacionState(new UserSession{
+                    UserName = userAccount.User,
+                    Role = userAccount.Role
+                });
+
+            
+                navigationManager.NavigateTo("/dashboard",true);
+            }else{
+                alert.Add("Debes llenar los campos obligatorios", Severity.Warning);
+            }
         }
     }
 }

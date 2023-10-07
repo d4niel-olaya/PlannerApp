@@ -2,6 +2,7 @@
 
 
 using PlannerApp.Database;
+using PlannerApp.Database.Models;
 
 namespace PlannerApp.Auth;
 
@@ -19,10 +20,11 @@ public class UserAccountService
     {
         var user = new UserAccount();
         var userByService = await _userService.GetUserAsync(UserName);
-        user.UserId = userByService.UserId;
-        user.User = userByService.UserEmail;
-        user.Role = userByService.UserRole;
-        user.Password = userByService.UserPassword;
+        var result = (User)userByService.obj;
+        user.UserId = result.UserId;
+        user.User = result.UserEmail;
+        user.Role = result.UserRole;
+        user.Password = result.UserPassword;
         return user;
     }
 }

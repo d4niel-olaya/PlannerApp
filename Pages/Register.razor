@@ -8,15 +8,15 @@
     <MudCardContent>
             <MudText Typo="Typo.h3" Align="Align.Center" >Registrate</MudText>
             <div class="space-top">
-                <MudTextField T="string" Label="Email" Variant="Variant.Outlined" Adornment="Adornment.End"  InputType="InputType.Email" AdornmentIcon="@Icons.Material.Filled.Mail" @bind-Value="_model.UserEmail" />
+                <MudTextField T="string" Label="Email" Variant="Variant.Outlined" Adornment="Adornment.End"  InputType="InputType.Email" AdornmentIcon="@Icons.Material.Filled.Mail" @bind-Value="_model.UserEmail" Required RequiredError="Campo requerido"/>
             </div>
             <div class="space-top">
-                <MudTextField T="string"  Label="Contraseña" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password"  @bind-Value="_model.UserPassword"/>
+                <MudTextField T="string"  Label="Contraseña" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password"  @bind-Value="_model.UserPassword"  Required RequiredError="Campo requerido"/>
             </div>
             <div class="space-top">
-                <MudTextField T="string"  Label="Confirma la contraseña" Variant="Variant.Outlined" InputType="@PasswordInputConfirm" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIconConfirm" OnAdornmentClick="ButtonTestclickConfirm" AdornmentAriaLabel="Show Password"  @bind-Value="PasswordConfirm"/>
+                <MudTextField T="string"  Label="Confirma la contraseña" Variant="Variant.Outlined" InputType="@PasswordInputConfirm" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIconConfirm" OnAdornmentClick="ButtonTestclickConfirm" AdornmentAriaLabel="Show Password"  @bind-Value="PasswordConfirm"  Required RequiredError="Campo requerido"/>
             </div>
-            <MudButton Variant="Variant.Filled" FullWidth="true"  Style="@($"background:#3AB394;margin-top:1rem;color:white;")" OnClick="UserRegister">Inicia sesión</MudButton>
+            <MudButton Variant="Variant.Filled" FullWidth="true"  Style="@($"background:#3AB394;margin-top:1rem;color:white;")" OnClick="UserRegister">Crea tu cuenta</MudButton>
             
     </MudCardContent>
 </MudCard>
@@ -78,20 +78,38 @@
         _model.UserRole = "admin";
         _model.UserNickname= "USERTEST";
         _alert.Configuration.RequireInteraction = true;
-        if(_model.UserPassword != PasswordConfirm)
+        if(!string.IsNullOrEmpty(_model.UserEmail.Trim()) && !string.IsNullOrEmpty(_model.UserPassword.Trim()))
         {
-            _alert.Add("Las contraseñas no coinciden", Severity.Error);
 
+            if(_model.UserPassword != PasswordConfirm)
+            {
+                _alert.Add("Las contraseñas no coinciden", Severity.Error);
+
+            }
+            else{
+                var result = await _userService.Register(_model);
+                if((int)result.code == 201)
+                {
+
+                    _model = new User();
+                    
+                    _alert.Add("Te has registrado con exito", Severity.Success);
+                    await Task.Delay(3000);
+                    _navigator.NavigateTo("/login");
+                }
+                else if((int)result.code == 400)
+                {
+                    _alert.Add("El email ya existe", Severity.Warning);
+                }
+                else{
+                      _alert.Add("Algo ha salido mal, Recarga la página", Severity.Error);
+                }   
+            
+
+            }
         }
         else{
-            await _userService.Register(_model);
-            _model = new User();
-            
-            _alert.Add("Te has registrado con exito", Severity.Success);
-            await Task.Delay(3000);
-            _navigator.NavigateTo("/login");
-        
-
+             _alert.Add("Debes llenar los campos requeridos", Severity.Error);
         }
         
     }
